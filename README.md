@@ -1,2 +1,8 @@
 # Proyecto_FLP
-Proyecto de Fundamentos de Lenguaje de Programación
+Proyecto de Fundamentos de Lenguaje de Programación - Univalle 2022
+
+Integrantes: 
+
+ Sebastián Tutistar Valencia  
+ Mavelyn Sterling Londoño         
+ Jefersson Danilo Arévalo              

@@ -30,3 +30,17 @@
 ;  <primitive>     ::= + | - | * | add1 | sub1 
 
 
+;Especificación Léxica
+
+(define especificacion-lexica
+'((espacio-en-blanco (whitespace) skip)
+  (comentario ("/*" (arbno (not #\newline))) skip)
+  (identificador ((or letter "_" "$")(arbno (or letter digit "-" ))) symbol)
+  (nombre ("@" letter (arbno letter)) string)
+  (texto ("'" letter (arbno (or letter digit)) "'") string)
+  (var-null ("null") string)
+  (numero (digit (arbno digit)) number) 
+  (numero ("-" digit (arbno digit)) number)
+  (numero (digit (arbno digit) "." digit (arbno digit)) number)
+  )
+)

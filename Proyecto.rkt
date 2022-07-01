@@ -104,13 +104,38 @@
   )
 )
 
-;Especificación Sintáctica (Gramática)
+;Especificación Sintáctica (gramática)
 
-(define especificacion-gramatical
-  ' (program
-     (expression ("var" identificador "=" expression) var-exp)
-     (expression ("const" identificador "=" expression) const-exp)
-     (expression ("rec" identificador "=" expression) rec-exp)
-     
-     )
-  )
+(define gramatica
+
+  '(
+    (program (expresion) a-programa)
+
+    ;;Const-exp: basado en Java,comienzan con cons identificador = expresion.
+    (expresion-def ("const" identificador "=" expresion) const-exp)
+
+    ;;Var-exp: basado en Java, comienzan con var identificador = expresion
+    (expresion-def ("var" identificador "=" expresion)  var-exp)
+
+    ;;Rec-exp: basadado en Java, comienzan con rec identificador = expresion
+    (expresion ("rec" (arbno identifier "(" (separated-list identifier ",") ")" "=" expresion)  "in" expresion) rec-exp)
+
+    ;;Identificador: Basado en Java, pueden comenzar con letras| "_" | "$"
+    (expresion (identificador) var-exp)
+
+    ;;Referencia 
+    (expresion ("&" identificador) refe-exp)
+
+    ;;Caracter: Basado en Java
+    (expresion (caracter) caracter-exp)
+
+    ;;Cadena: Basado en Java
+    (expresion (cadena) cadena-exp)
+
+    ;;Valor-empty: Basado en Java, se define las variables sin valor con null
+    (expresion (valor-empty) empty-exp)
+    
+    
+      )
+    
+    )

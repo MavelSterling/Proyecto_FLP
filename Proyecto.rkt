@@ -99,6 +99,8 @@
   (numero (digit (arbno digit)) number) 
   (numero ("-" digit (arbno digit)) number)
   (numero (digit (arbno digit) "." digit (arbno digit)) number)
+  (caracter ("\'" letter "\'" ) symbol)
+  (cadena ("\""(or letter whitespace digit) (arbno (or whitespace letter digit)) "\"") string)
   )
 )
 

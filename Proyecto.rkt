@@ -188,6 +188,13 @@
     (pred-prim ("&&") and-bool)
     (pred-prim ("||") or-bool)
     
+    ;;Primitivas para base 8: Basado en Java
+    (primitive-8 ("+8") suma8)
+    (primitive-8 ("-8") resta8)
+    (primitive-8 ("*8") multip8)
+    (primitive-8 ("++8") add8)
+    (primitive-8 ("--8") sub8)
+    
       )
     
     )

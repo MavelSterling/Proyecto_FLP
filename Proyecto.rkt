@@ -195,6 +195,13 @@
     (primitive-8 ("++8") add8)
     (primitive-8 ("--8") sub8)
     
+    ;;Primitivas para base 16: Basado en Java
+    (primitive-16 ("+16") suma16)
+    (primitive-16 ("-16") resta16)
+    (primitive-16 ("*16") multip16)
+    (primitive-16 ("++16") add16)
+    (primitive-16 ("--16") sub16)
+    
       )
     
     )

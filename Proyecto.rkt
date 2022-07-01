@@ -1,7 +1,7 @@
 #lang eopl
 
 ;; Proyecto final
-;;Grupo: 01.
+;; Grupo: 01.
 
 ;;Integrantes
 ;;#. Nombres completos            -   Código estudiantil

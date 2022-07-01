@@ -202,6 +202,17 @@
     (primitive-16 ("++16") add16)
     (primitive-16 ("--16") sub16)
     
+    ;;Primitivas para base 32: Basado en Java
+    (primitive-32 ("+32") suma32)
+    (primitive-32 ("-32") resta32)
+    (primitive-32 ("*32") multip32)
+    (primitive-32 ("++32") add32)
+    (primitive-32 ("--32") sub32)
+    
+    ;;Primitiva string para la longitud
+    (primitive-str (".length") len-string)
+    (primitive-list ("list") list-prim)
+    
       )
     
     )

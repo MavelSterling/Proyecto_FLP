@@ -13,21 +13,78 @@
 ;
 ;  <program>       ::= <expression>
 ;                      <a-program (exp)>
-;  <expression>    ::= <number>
-;                      <lit-exp (datum)>
+;  <expresion>    ::= <number> (numero)
+;                  ::= <lit-exp (datum)>
 ;                  ::= <identifier>
 ;                      <var-exp (id)>
-;                  ::= <primitive> ({<expression>}*(,))
+;                  ::= <valor-true> true
+;                  ::= <valor-false> false
+;                  ::= <empty-exp> null
+;                  ::= <primitive> ({<expresion>}*(,))
 ;                      <primapp-exp (prim rands)>
-;                  ::= if <expresion> then <expresion> else <expression>
-;                      <if-exp (exp1 exp2 exp23)>
-;                  ::= let {identifier = <expression>}* in <expression>
+;                  ::= (primitiveString-exp) [<expresion> <primitive-str>]
+;                  ::= <caracter>
+;                      <caracter-exp>
+;                  ::= <cadena>
+;                     <cadena-exp>
+;                  ::= begin {<expresion>}+(;) end
+;                   ::= if (<expresion>) "{" <expresion>"}" else "{"<expresion>"}"
+;                      <if-exp (exp1 exp2 exp23)> 
+;                  ::= while (<expresion>) "{" <expresion>"}"
+;                      <expresion> done
+;                   ::= for (<identifier> = <expresion> <to> <expresion>) "{" <expresion>"}"
+;                      <expresion> { <program>} fin
+;                  ::= let {identifier = <expresion>}* in <expresion>
 ;                      <let-exp (ids rands body)>
-;                  ::= proc({<identificador>}*(,)) <expression>
+;                  ::= rec  {identifier ({identificador}(,)) = <expresion>} in <expresion>
+;                      <rec-exp proc-names idss bodies bodyrec>
+;                  ::= proc({<identificador>}*(,)) <expresion>
 ;                      <proc-exp (ids body)>
-;                  ::= (<expression> {<expression>}*)
-;                      <app-exp proc rands>
-;  <primitive>     ::= + | - | * | add1 | sub1 
+;                  ::= (bas-8) bas8 <expresion> <bas8-exp> <expresion>;
+;                  ::= (bas-16) bas16 <expresion> <bas16-exp> <expresion>;
+;                  ::= (bas-32) bas32 <expresion> <bas32-exp> <expresion>;
+;                  ::= (<expresion> {<expresion>}*)
+;                       <app-exp proc rands>
+;                  := (hex-number) (hex number {, number}*)
+;                  := (oct-number) (oct number {, number}*)
+;
+; <lista>          ::= [{<expresion>} * (;)]
+; <vector>         ::= vector[{<expresion>} * (;) ]
+; <registro>       ::= { {<identificador> = <expresion> } + (;) }
+; <expr-bool>      ::= <pred-prim>(<expresion> , <expresion>)
+;                      <oper-bin-bool>(<expr-bool >, <expr-bool>)
+;                  ::= <bool>
+;                  ::= <oper-un-bool>(<expr-bool>)
+;
+; <primitive>      ::= + | - | * | add1 | sub1
+;
+; <pred-prim>      ::= < | <= | > | >= | == | != | && | || | <>
+;
+; <oper-bin-bool>  ::=  and | or 
+; <oper-un-bool>   ::= (not-bool) not
+
+
+;  <primitive-8>   ::= (suma8) +x8
+;                  ::= (resta8) -x8
+;                  ::= (multip8) *x8
+;                  ::= (add16) ++x8
+;                  ::= (rest16) --x8
+;                  
+
+;  <primitive-16>  ::= (suma16) +x16
+;                  ::= (resta16) -x16
+;                  ::= (multip16) *x16
+;                  ::= (add16) ++x6
+;                  ::= (rest16) --x6
+
+;  <primitive-32>  ::= (suma32) +x32
+;                  ::= (resta32) -x32
+;                  ::= (multip132) *x32
+;                  ::= (add32) ++x32
+;                  ::= (rest32) --x32
+
+; <primitive-str>  ::= (len-string) .length
+; <primitive-list> ::= (list-prim) list
 
 
 ;Especificación Léxica

@@ -164,6 +164,20 @@
     (expresion ("while" "("expresion")" "{"expresion"}" ) while-exp)
     (expresion ("for" "(" identifier "=" expresion ";" to expresion ")" "{" expresion"}") for-exp)
     
+    ;;Expresiones para números hexadecimales
+    (expresion ("bas8" expresion primitive-8 expresion ";") bas8-exp)
+    (expresion ("bas16" expresion primitive-16 expresion ";") bas16-exp)
+    (expresion ("bas32" expresion primitive-32 expresion ";") bas32-exp)
+    
+    ;;Primitivas para los enteros: Basado en Java
+    (primitive ("+") sum-ent)
+    (primitive ("-") rest-ent)
+    (primitive ("*") mult-ent)
+    (primitive ("%") mod-ent)
+    (primitive ("/") div-ent)
+    (primitive ("add1") incre-ent)
+    (primitive ("sub1") decre-ent)
+    
       )
     
     )

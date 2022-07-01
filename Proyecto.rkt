@@ -46,3 +46,12 @@
 )
 
 ;Especificación Sintáctica (Gramática)
+
+(define especificacion-gramatical
+  ' (program
+     (expression ("var" identificador "=" expression) var-exp)
+     (expression ("const" identificador "=" expression) const-exp)
+     (expression ("rec" identificador "=" expression) rec-exp)
+     
+     )
+  )

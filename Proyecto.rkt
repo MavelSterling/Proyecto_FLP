@@ -178,6 +178,16 @@
     (primitive ("add1") incre-ent)
     (primitive ("sub1") decre-ent)
     
+    ;;Primitivas predifinidos: Basado en Java
+    (pred-prim (">") mayor-bool)
+    (pred-prim (">=") mayor-igual-bool)
+    (pred-prim ("<") menor-bool)
+    (pred-prim ("<=") menor-igual-bool)
+    (pred-prim ("==") igual-bool)
+    (pred-prim ("!=") diferente-bool)
+    (pred-prim ("&&") and-bool)
+    (pred-prim ("||") or-bool)
+    
       )
     
     )

@@ -135,6 +135,34 @@
     ;;Valor-empty: Basado en Java, se define las variables sin valor con null
     (expresion (valor-empty) empty-exp)
     
+    ;;Número: Basado en Java
+    (expresion (numero) number)
+
+    ;;Número en Base 8: Basado en Java
+    (expresion ("('x8 " (arbno numero) ")") bas8-exp)
+    
+    ;;Número en Base 16: Basado en Java
+    (expresion ("('x16 " (arbno numero) ")") bas16-exp)
+
+    ;;Número en Base 32: Basado en Java
+    (expresion ("('x32 " (arbno numero) ")") bas32-exp)
+
+    ;;Booleanos: Basado en Java (True y False)
+    (expresion ("true") valor-true)
+    (expresion ("false") valor-false)
+
+    ;;Longitud
+    (expresion ("[" expresion primitive-str "]") primitiveString-exp)
+
+    ;;Concatenar
+    ;;Falta
+    
+
+    ;;Estructuras de Control
+    (expresion ("begin" expresion ";" (arbno ";" expresion)"end") begin-exp)
+    (expresion ("if" "(" expresion")" "{" expresion "}" "else" "{" expresion "}") if-exp)
+    (expresion ("while" "("expresion")" "{"expresion"}" ) while-exp)
+    (expresion ("for" "(" identifier "=" expresion ";" to expresion ")" "{" expresion"}") for-exp)
     
       )
     

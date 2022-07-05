@@ -1,0 +1,49 @@
+Observaciones:
+
+La gramática tiene buena pinta, por favor asegúrense de incluir ejemplos scan&parse para poder hacer la siguiente revisión:
+
+
+- El lenguaje maneja:
+    - Enteros
+        - Ejemplo scan&parse
+    - Flotantes
+        - Ejemplo scan&parse
+    - Base 16
+        - Ejemplo scan&parse
+    - Cadenas
+        - Ejemplo scan&parse
+    - Booleanos
+        - Ejemplo scan&parse
+    - Procedimientos
+        - Ejemplo scan&parse
+    - Listas
+        - Ejemplo scan&parse
+    - Registros
+        - Ejemplo scan&parse
+    - Vectores
+        - Ejemplo scan&parse
+- Constantes
+        - Ejemplo scan&parse
+- Variables de asignación única
+        - Ejemplo scan&parse
+- Instrucción para asignar variables (Ejemplo scan&parse)
+- Condicionales (Ejemplo scan&parse)
+- Secuenciación (Ejemplo scan&parse)
+- Iteración (Ejemplo scan&parse)
+- Las 9 primitivas booleanas (Ejemplo scan&parse con las 9 primitivas)
+- 7 primitivas para enteros (Ejemplo scan&parse con las 7 primitivas)
+- 5 primitivas para Base 16 (Ejemplo scan&parse con las 5 primitivas)
+- 2 primitivas para cadenas (Ejemplo scan&parse con las 2 primitivas)
+- 7 primitivas y operadores sobre listas (Ejemplo scan&parse con las 7 primitivas)
+- Definición de procedimientos (Ejemplo scan&parse)
+- Invocación de procedimientos
+    - Especificación de paso de parámetros por valor y referencia (Ejemplo scan&parse donde se diferencie el envío por valor y el envío por referencia)
+- Definición de procedimientos recursivos (Ejemplo scan&parse)
+- Invocación de procedimientos recursivos
+    - Especificación de paso de parámetros por valor y referencia (Ejemplo scan&parse donde se diferencie el envío por valor y el envío por referencia)
+- Soporte para escribir instancias SAT (Ejemplo scan&parse)
+
+Si mi lenguaje está completo, entonces puedo escribir programas interesantes, por ejemplo debería poder:
+- Escribir la solución del ejercicio 1 del taller 1
+- Escribir la solución del ejercicio 2 del taller 1
+

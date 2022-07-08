@@ -151,12 +151,11 @@
     (expresion ("true") valor-true)
     (expresion ("false") valor-false)
 
-    ;;Longitud
-    (expresion ("[" expresion primitive-str "]") primitiveString-exp)
-
-    ;;Concatenar
-    ;;Falta
+    ;;Crear-lista: basado en Java
+    (expresion ("crear-lista" "(" expresion (arbno "," expresion) ")") lista-exp)
     
+    ;;Crear-vector: basado en Java
+    (expresion ("vector ("(separated-list expresion ",") ")") vector-exp)
 
     ;;Estructuras de Control
     (expresion ("begin" expresion ";" (arbno ";" expresion)"end") begin-exp)

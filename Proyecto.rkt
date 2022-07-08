@@ -235,3 +235,36 @@
       )
     
     )
+    
+;Construcciones Automáticas
+
+(sllgen:make-define-datatypes especificacion-lexica gramatica)
+
+;Test
+(define show-the-datatypes
+ (lambda ()
+    (sllgen:list-define-datatypes especificacion-lexica gramatica)))
+
+(show-the-datatypes)
+
+;-------------------------------------------------------
+;Parser, Scanner, Interfaz
+
+;El FrontEnd (Análisis léxico (scanner) y sintáctico (parser) integrados)
+(define scan&parse
+ (sllgen:make-string-parser especificacion-lexica gramatica))
+
+;El Analizador Léxico (Scanner)
+
+(define just-scan
+   (sllgen:make-string-scanner especificacion-lexica gramatica))
+
+;El Interpretador (FrontEnd + Evaluación + señal para lectura )
+
+(define interpretador
+
+  (sllgen:make-rep-loop  "--> "
+                          (lambda (pgm) (eval-program  pgm)) 
+                          (sllgen:make-stream-parser 
+                            especificacion-lexica
+                            gramatica)))

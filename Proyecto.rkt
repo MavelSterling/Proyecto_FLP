@@ -209,9 +209,9 @@
     (primitive-32 ("++32") add32)
     (primitive-32 ("--32") sub32)
     
-    ;;Primitiva string para la longitud
-    (primitive-str (".length") len-string)
-    (primitive-list ("list") list-prim)
+    ;;Primitiva string para la longitud y concatenar
+    (primitive ("longitud") prim-longitud)
+    (primitive ("concatenar") prim-concatenar)
     
       )
     

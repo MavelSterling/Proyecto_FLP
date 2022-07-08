@@ -11,18 +11,17 @@
 
 ;Definición Backus-Naur form (BNF) para las expresiones del lenguaje:
 ;
-;  <program>       ::= <expression>
+;  <program>       ::= <expresion>
 ;                      <a-program (exp)>
 ;  <expresion>    ::= <number> (numero)
 ;                  ::= <lit-exp (datum)>
-;                  ::= <identifier>
+;                  ::= <identificador>
 ;                      <var-exp (id)>
 ;                  ::= <valor-true> true
 ;                  ::= <valor-false> false
 ;                  ::= <empty-exp> null
 ;                  ::= <primitive> ({<expresion>}*(,))
 ;                      <primapp-exp (prim rands)>
-;                  ::= (primitiveString-exp) [<expresion> <primitive-str>]
 ;                  ::= <caracter>
 ;                      <caracter-exp>
 ;                  ::= <cadena>
@@ -32,11 +31,11 @@
 ;                      <if-exp (exp1 exp2 exp23)> 
 ;                  ::= while (<expresion>) "{" <expresion>"}"
 ;                      <expresion> done
-;                   ::= for (<identifier> = <expresion> <to> <expresion>) "{" <expresion>"}"
+;                   ::= for (<identificador> = <expresion> <to> <expresion>) "{" <expresion>"}"
 ;                      <expresion> { <program>} fin
-;                  ::= let {identifier = <expresion>}* in <expresion>
+;                  ::= let {identificador = <expresion>}* in <expresion>
 ;                      <let-exp (ids rands body)>
-;                  ::= rec  {identifier ({identificador}(,)) = <expresion>} in <expresion>
+;                  ::= rec  {identificador ({identificador}(,)) = <expresion>} in <expresion>
 ;                      <rec-exp proc-names idss bodies bodyrec>
 ;                  ::= proc({<identificador>}*(,)) <expresion>
 ;                      <proc-exp (ids body)>
@@ -82,9 +81,6 @@
 ;                  ::= (multip132) *x32
 ;                  ::= (add32) ++x32
 ;                  ::= (rest32) --x32
-
-; <primitive-str>  ::= (len-string) .length
-; <primitive-list> ::= (list-prim) list
 
 
 ;Especificación Léxica

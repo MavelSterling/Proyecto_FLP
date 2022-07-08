@@ -156,6 +156,9 @@
     
     ;;Crear-vector: basado en Java
     (expresion ("vector ("(separated-list expresion ",") ")") vector-exp)
+    
+    ;;Crear-registro: basado en Java
+    (expresion ("crear-registro ("(separated-list identificador "->" expresion ";") ")")crear-registro-exp)
 
     ;;Estructuras de Control
     (expresion ("begin" expresion ";" (arbno ";" expresion)"end") begin-exp)

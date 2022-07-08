@@ -215,6 +215,23 @@
     (primitive ("longitud") prim-longitud)
     (primitive ("concatenar") prim-concatenar)
     
+    ;;Primitivas para Listas
+    (primitive ("lista?") prim-lista?)
+    (primitive ("cabeza" "(" expresion ")") cabeza-exp)
+    (primitive ("cola" "(" expresion ")") cola-exp)
+    (primitive ("append") prim-lista-append)
+    
+    ;;Primitivas para Vectores
+    (primitive ("vector?") prim-vector?)
+    (primitive ("ref-vector") prim-ref-vector)
+    (primitive ("set-vector") prim-set-vector)
+    
+    ;;Primitivas para Registros
+    (primitive ("registros?") prim-registros?)
+    (primitive ("ref-registro") prim-ref-registro)
+    (primitive ("set-registro") prim-set-registro)
+    (primitive ("create-registro") prim-crear-registro)
+    
       )
     
     )

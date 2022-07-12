@@ -88,14 +88,14 @@
 (define especificacion-lexica
 '((espacio-en-blanco (whitespace) skip)
   (comentario ("/*" (arbno (not #\newline))) skip)
-  (identificador ((or letter "_" "$")(arbno (or letter digit "-" ))) symbol)
+  ;(identificador ((or letter "_" "$")(arbno (or letter digit "-" ))) symbol)
   (nombre ("@" letter (arbno letter)) string)
-  (texto ("'" letter (arbno (or letter digit)) "'") string)
-  (var-null ("null") string)
+  ;(texto ("'" letter (arbno (or letter digit)) "'") string)
+  ;(var-null ("null") string)
   (numero (digit (arbno digit)) number) 
   (numero ("-" digit (arbno digit)) number)
   (numero (digit (arbno digit) "." digit (arbno digit)) number)
-  (caracter ("\'" letter "\'" ) symbol)
+  ;(caracter ("\'" letter "\'" ) symbol)
   (cadena ("\""(or letter whitespace digit) (arbno (or whitespace letter digit)) "\"") string)
   )
 )
@@ -108,125 +108,127 @@
     (program (expresion) a-programa)
 
     ;;Const-exp: basado en Java,comienzan con cons identificador = expresion.
-    (expresion-def ("const" identificador "=" expresion) const-exp)
+    ;(expresion-def ("const" identificador "=" expresion) const-exp)
 
     ;;Var-exp: basado en Java, comienzan con var identificador = expresion
-    (expresion-def ("var" identificador "=" expresion)  var-exp)
+    ;(expresion-def ("var" identificador "=" expresion)  var-exp)
 
     ;;Rec-exp: basadado en Java, comienzan con rec identificador = expresion
-    (expresion ("rec" (arbno identifier "(" (separated-list identifier ",") ")" "=" expresion)  "in" expresion) rec-exp)
+    ;(expresion ("rec" (arbno identifier "(" (separated-list identifier ",") ")" "=" expresion)  "in" expresion) rec-exp)
 
     ;;Identificador: Basado en Java, pueden comenzar con letras| "_" | "$"
-    (expresion (identificador) var-exp)
+    (expresion (nombre) var-exp)
 
     ;;Referencia 
-    (expresion ("&" identificador) refe-exp)
+    (expresion ("&" nombre) refe-exp)
+
+    (expresion ("null") null-exp)
 
     ;;Caracter: Basado en Java
-    (expresion (caracter) caracter-exp)
+    ;(expresion (caracter) caracter-exp)
 
     ;;Cadena: Basado en Java
-    (expresion (cadena) cadena-exp)
+    ;(expresion (cadena) cadena-exp)
 
     ;;Valor-empty: Basado en Java, se define las variables sin valor con null
-    (expresion (valor-empty) empty-exp)
+    ;(expresion (valor-empty) empty-exp)
     
     ;;Número: Basado en Java
-    (expresion (numero) number)
+    ;(expresion (numero) number)
 
     ;;Número en Base 8: Basado en Java
-    (expresion ("('x8 " (arbno numero) ")") bas8-exp)
+    ;(expresion ("('x8 " (arbno numero) ")") bas8-exp)
     
     ;;Número en Base 16: Basado en Java
     (expresion ("('x16 " (arbno numero) ")") bas16-exp)
 
     ;;Número en Base 32: Basado en Java
-    (expresion ("('x32 " (arbno numero) ")") bas32-exp)
+    ;(expresion ("('x32 " (arbno numero) ")") bas32-exp)
 
     ;;Booleanos: Basado en Java (True y False)
-    (expresion ("true") valor-true)
-    (expresion ("false") valor-false)
+    ;(expresion ("true") valor-true)
+    ;(expresion ("false") valor-false)
 
     ;;Crear-lista: basado en Java
-    (expresion ("crear-lista" "(" expresion (arbno "," expresion) ")") lista-exp)
+    ;(expresion ("crear-lista" "(" expresion (arbno "," expresion) ")") lista-exp)
     
     ;;Crear-vector: basado en Java
-    (expresion ("vector ("(separated-list expresion ",") ")") vector-exp)
+    ;(expresion ("vector ("(separated-list expresion ",") ")") vector-exp)
     
     ;;Crear-registro: basado en Java
-    (expresion ("crear-registro ("(separated-list identificador "->" expresion ";") ")")crear-registro-exp)
+    ;(expresion ("crear-registro ("(separated-list identificador "->" expresion ";") ")")crear-registro-exp)
 
     ;;Estructuras de Control
-    (expresion ("begin" expresion ";" (arbno ";" expresion)"end") begin-exp)
-    (expresion ("if" "(" expresion")" "{" expresion "}" "else" "{" expresion "}") if-exp)
-    (expresion ("while" "("expresion")" "{"expresion"}" ) while-exp)
-    (expresion ("for" "(" identifier "=" expresion ";" to expresion ")" "{" expresion"}") for-exp)
-    
+;    (expresion ("begin" expresion ";" (arbno ";" expresion)"end") begin-exp)
+;    (expresion ("if" "(" expresion")" "{" expresion "}" "else" "{" expresion "}") if-exp)
+;    (expresion ("while" "("expresion")" "{"expresion"}" ) while-exp)
+;    (expresion ("for" "(" identifier "=" expresion ";" to expresion ")" "{" expresion"}") for-exp)
+;    
     ;;Expresiones para números hexadecimales
-    (expresion ("bas8" expresion primitive-8 expresion ";") bas8-exp)
-    (expresion ("bas16" expresion primitive-16 expresion ";") bas16-exp)
-    (expresion ("bas32" expresion primitive-32 expresion ";") bas32-exp)
+;    (expresion ("bas8" expresion primitive-8 expresion ";") bas8-exp)
+;    (expresion ("bas16" expresion primitive-16 expresion ";") bas16-exp)
+;    (expresion ("bas32" expresion primitive-32 expresion ";") bas32-exp)
     
     ;;Primitivas para los enteros: Basado en Java
-    (primitive ("+") sum-ent)
-    (primitive ("-") rest-ent)
-    (primitive ("*") mult-ent)
-    (primitive ("%") mod-ent)
-    (primitive ("/") div-ent)
-    (primitive ("add1") incre-ent)
-    (primitive ("sub1") decre-ent)
-    
+;    (primitive ("+") sum-ent)
+;    (primitive ("-") rest-ent)
+;    (primitive ("*") mult-ent)
+;    (primitive ("%") mod-ent)
+;    (primitive ("/") div-ent)
+;    (primitive ("add1") incre-ent)
+;    (primitive ("sub1") decre-ent)
+;    
     ;;Primitivas predifinidos: Basado en Java
-    (pred-prim (">") mayor-bool)
-    (pred-prim (">=") mayor-igual-bool)
-    (pred-prim ("<") menor-bool)
-    (pred-prim ("<=") menor-igual-bool)
-    (pred-prim ("==") igual-bool)
-    (pred-prim ("!=") diferente-bool)
-    (pred-prim ("&&") and-bool)
-    (pred-prim ("||") or-bool)
-    
+;    (pred-prim (">") mayor-bool)
+;    (pred-prim (">=") mayor-igual-bool)
+;    (pred-prim ("<") menor-bool)
+;    (pred-prim ("<=") menor-igual-bool)
+;    (pred-prim ("==") igual-bool)
+;    (pred-prim ("!=") diferente-bool)
+;    (pred-prim ("&&") and-bool)
+;    (pred-prim ("||") or-bool)
+;    
     ;;Primitivas para base 8: Basado en Java
-    (primitive-8 ("+8") suma8)
-    (primitive-8 ("-8") resta8)
-    (primitive-8 ("*8") multip8)
-    (primitive-8 ("++8") add8)
-    (primitive-8 ("--8") sub8)
-    
-    ;;Primitivas para base 16: Basado en Java
-    (primitive-16 ("+16") suma16)
-    (primitive-16 ("-16") resta16)
-    (primitive-16 ("*16") multip16)
-    (primitive-16 ("++16") add16)
-    (primitive-16 ("--16") sub16)
-    
-    ;;Primitivas para base 32: Basado en Java
-    (primitive-32 ("+32") suma32)
-    (primitive-32 ("-32") resta32)
-    (primitive-32 ("*32") multip32)
-    (primitive-32 ("++32") add32)
-    (primitive-32 ("--32") sub32)
-    
-    ;;Primitiva string para la longitud y concatenar
-    (primitive ("longitud") prim-longitud)
-    (primitive ("concatenar") prim-concatenar)
-    
-    ;;Primitivas para Listas
-    (primitive ("lista?") prim-lista?)
-    (primitive ("cabeza" "(" expresion ")") cabeza-exp)
-    (primitive ("cola" "(" expresion ")") cola-exp)
-    (primitive ("append") prim-lista-append)
-    
-    ;;Primitivas para Vectores
-    (primitive ("vector?") prim-vector?)
-    (primitive ("ref-vector") prim-ref-vector)
-    (primitive ("set-vector") prim-set-vector)
-    
-    ;;Primitivas para Registros
-    (primitive ("registros?") prim-registros?)
-    (primitive ("ref-registro") prim-ref-registro)
-    (primitive ("set-registro") prim-set-registro)
-    (primitive ("create-registro") prim-crear-registro)
+;    (primitive-8 ("+8") suma8)
+;    (primitive-8 ("-8") resta8)
+;    (primitive-8 ("*8") multip8)
+;    (primitive-8 ("++8") add8)
+;    (primitive-8 ("--8") sub8)
+;    
+;    ;;Primitivas para base 16: Basado en Java
+;    (primitive-16 ("+16") suma16)
+;    (primitive-16 ("-16") resta16)
+;    (primitive-16 ("*16") multip16)
+;    (primitive-16 ("++16") add16)
+;    (primitive-16 ("--16") sub16)
+;    
+;    ;;Primitivas para base 32: Basado en Java
+;    (primitive-32 ("+32") suma32)
+;    (primitive-32 ("-32") resta32)
+;    (primitive-32 ("*32") multip32)
+;    (primitive-32 ("++32") add32)
+;    (primitive-32 ("--32") sub32)
+;    
+;    ;;Primitiva string para la longitud y concatenar
+;    (primitive ("longitud") prim-longitud)
+;    (primitive ("concatenar") prim-concatenar)
+;    
+;    ;;Primitivas para Listas
+;    (primitive ("lista?") prim-lista?)
+;    (primitive ("cabeza" "(" expresion ")") cabeza-exp)
+;    (primitive ("cola" "(" expresion ")") cola-exp)
+;    (primitive ("append") prim-lista-append)
+;    
+;    ;;Primitivas para Vectores
+;    (primitive ("vector?") prim-vector?)
+;    (primitive ("ref-vector") prim-ref-vector)
+;    (primitive ("set-vector") prim-set-vector)
+;    
+;    ;;Primitivas para Registros
+;    (primitive ("registros?") prim-registros?)
+;    (primitive ("ref-registro") prim-ref-registro)
+;    (primitive ("set-registro") prim-set-registro)
+;    (primitive ("create-registro") prim-crear-registro)
     
       )
     
@@ -256,11 +258,3 @@
    (sllgen:make-string-scanner especificacion-lexica gramatica))
 
 ;El Interpretador (FrontEnd + Evaluación + señal para lectura )
-
-(define interpretador
-
-  (sllgen:make-rep-loop  "--> "
-                          (lambda (pgm) (eval-program  pgm)) 
-                          (sllgen:make-stream-parser 
-                            especificacion-lexica
-                            gramatica)))

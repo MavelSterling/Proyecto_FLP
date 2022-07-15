@@ -85,6 +85,7 @@
 ;<expresion> ::= FNC <numero> ( clausula-or )+ (”and”)
 ;<clausula-or> ::= ( <numero> )+ (”or”)
 
+;###########################################################
 
 ;Especificación Léxica
 
@@ -100,6 +101,8 @@
   (cadena ("$"(or letter whitespace digit) (arbno (or whitespace letter digit))) string)
   )
 )
+
+;###########################################################
 
 ;Especificación Sintáctica (gramática)
 

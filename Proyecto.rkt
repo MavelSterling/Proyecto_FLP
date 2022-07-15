@@ -82,6 +82,9 @@
 ;                  ::= (add32) ++x32
 ;                  ::= (rest32) --x32
 
+;<expresion> ::= FNC <numero> ( clausula-or )+ (”and”)
+;<clausula-or> ::= ( <numero> )+ (”or”)
+
 
 ;Especificación Léxica
 

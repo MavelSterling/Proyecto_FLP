@@ -374,3 +374,16 @@
 ;(scan&parse "base32 100 +32 132;")
 ;(scan&parse "base32 -200 -32 200;")
 ;(scan&parse "base32 1000 *32 1000;")
+
+;Primitivas para Cadenas
+;(scan&parse "[longitud $hola, $mundo, $4]")
+;(scan&parse "[concatenar $flp, 2022, II]")
+;(scan&parse "[longitud [concatenar $hola, $mundo, $4]]")
+
+;Primitivas para Listas
+;(scan&parse "[vacio? lista(0,1)]")
+;(scan&parse "[vacio lista(0,1,2)]")
+;(scan&parse "[lista? lista(1,2,3,4,5,f,g)]")
+;(scan&parse "[cola (lista (1,2,3,4,5,f,g))]")
+;(scan&parse "[cabeza (lista (1,2,3,4,5,f,g))]")
+;(scan&parse "[append lista(1,2,3,4,5,f,g)]")

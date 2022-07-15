@@ -244,6 +244,23 @@
     (expresion ("base16" expresion primitiva-16 expresion ";") bas16-exp1)
     (expresion ("base32" expresion primitiva-32 expresion ";") bas32-exp1)
     
+    ;Primitivas sobre cadenas
+    
+    ;longitud: basado en Java
+    (primitiva ("longitud") prim-longitud)
+
+    ;concatenar: basado en Java
+    (primitiva ("concatenar") prim-concatenar)
+
+    ;Primitivas sobre listas
+
+    (primitiva ("vacio?") lst-vacio?)
+    (primitiva ("vacio") lst-vacio)
+    (primitiva ("lista?") lst-lista?)
+    (primitiva ("cabeza" "(" expresion ")") lst-cabeza)
+    (primitiva ("cola" "(" expresion ")") lst-cola)
+    (primitiva ("append") lst-append)
+    
     
 
     

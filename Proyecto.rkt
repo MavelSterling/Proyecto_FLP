@@ -261,6 +261,10 @@
     (primitiva ("cola" "(" expresion ")") lst-cola)
     (primitiva ("append") lst-append)
     
+    ;Primitivas sobre vectores
+    (primitiva ("vector?") vec-vector?)
+    (primitiva ("ref-vector") vec-ref-vector)
+    (primitiva ("set-vector") vec-set-vector)
     
 
     

@@ -303,4 +303,17 @@
 (define just-scan
    (sllgen:make-string-scanner especificacion-lexica gramatica))
 
-;El Interpretador (FrontEnd + Evaluación + señal para lectura )
+
+;##############################Scan&Parser##############################
+
+;Definiciones
+;(scan&parse "var y=50")
+;(scan&parse "const t=null")
+;(scan&parse "letrec @x (@s,@d,@k) = q in t")
+
+;Datos
+;(scan&parse "5")
+;(scan&parse "a")
+;(scan&parse "$abc")
+;(scan&parse "true")
+;(scan&parse "false")

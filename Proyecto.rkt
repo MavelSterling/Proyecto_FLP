@@ -328,3 +328,11 @@
 ;(scan&parse "<= (10,5)")
 ;(scan&parse "== (5,4)")
 ;(scan&parse "!= (5,5)")
+
+;Estructuras de Control
+;(scan&parse "begin x;s;d end")
+;(scan&parse "if( >(5,3)) {5} else {0} ")
+;(scan&parse "if( >(5,3)) {true} else {false} ")
+;(scan&parse "while (!=(i,0)) do {$holaMundo}")
+;(scan&parse "for x=0 to <(x,100) do {2} end")
+;(scan&parse "for x=0 to 100 do {if(==(x,100)) {true} else {false} } end")

@@ -172,6 +172,78 @@
     (bool ("true") true->boolean)
     (bool ("false") false->boolean)
     
+    ;Estructuras de Control
+
+    ;begin: basado en Java
+    (expresion ("begin" expresion ";" (separated-list expresion ";")"end") begin-exp)
+
+    ;if: basado en Java
+    (expresion ("if" "(" expresion")" "{" expresion "}" "else" "{" expresion "}") if-exp)
+
+    ;while: basado en Java
+    (expresion ("while" "("expresion")" "do" "{"expresion"}" ) while-exp)
+
+    ;for: basado en Java
+    (expresion ("for" identificador "=" expresion "to" expresion "do" "{"expresion"}" "end") for-exp)
+
+    ;Procedimientos
+    
+    ;let: basado en Java
+    (expresion ("let" identificador "=" expresion) let-exp)
+  
+    ;proc: basado en Java
+    (expresion ("proc" "("(separated-list identificador ",") ")" "{" expresion "}") procedure-exp)
+    
+    ;invocar: basado en Java
+    (expresion ("invocar" expresion "(" (separated-list expresion ",") ")") procedure-call-exp)
+    
+    ;Primitivas aritméticas para enteros
+
+    (primitiva ("+") primitiva-sum)
+    (primitiva ("-") primitiva-rest)
+    (primitiva ("*") primitiva-mult)
+    (primitiva ("%") primitiva-mod)
+    (primitiva ("/") primitiva-div)
+    (primitiva ("add1") incr-prim)    
+    (primitiva ("sub1") decr-prim)
+
+    ;Primitivas aritméticas para hexadecimales
+
+    ;primitivas para base 8: basado en Java
+    (primitiva-8 ("+8") suma8)
+    (primitiva-8 ("-8") resta8)
+    (primitiva-8 ("*8") multip8)
+    (primitiva-8 ("++8") add8)
+    (primitiva-8 ("--8") sub8)
+
+    ;primitivas para base 16: basado en Java
+    (primitiva-16 ("+16") suma16)
+    (primitiva-16 ("-16") resta16)
+    (primitiva-16 ("*16") multip16)
+    (primitiva-16 ("++16") add16)
+    (primitiva-16 ("--16") sub16)
+    
+    ;primitivas para base 32: basado en Java
+    (primitiva-32 ("+32") suma32)
+    (primitiva-32 ("-32") resta32)
+    (primitiva-32 ("*32") multip32)
+    (primitiva-32 ("++32") add32)
+    (primitiva-32 ("--32") sub32)
+
+    ;número en base 8: basado en Java
+    (expresion ("('x8 " (arbno numero) ")") bas8-exp)
+    
+    ;número en base 16: basado en Java
+    (expresion ("('x16 " (arbno numero) ")") bas16-exp)
+
+    ;número en base 32: basado en Java
+    (expresion ("('x32 " (arbno numero) ")") bas32-exp)
+
+    ;expresiones para números hexadecimales (8,16,32)
+    (expresion ("base8" expresion primitiva-8 expresion ";") bas8-exp1)
+    (expresion ("base16" expresion primitiva-16 expresion ";") bas16-exp1)
+    (expresion ("base32" expresion primitiva-32 expresion ";") bas32-exp1)
+    
     
 
     

@@ -336,3 +336,17 @@
 ;(scan&parse "while (!=(i,0)) do {$holaMundo}")
 ;(scan&parse "for x=0 to <(x,100) do {2} end")
 ;(scan&parse "for x=0 to 100 do {if(==(x,100)) {true} else {false} } end")
+
+;Procedimientos
+
+;(scan&parse "let x=1000")
+;(scan&parse "proc(a,b,c){true}")
+;(scan&parse "invocar x (registro (a->1; b->2))")
+
+;Primitivas para Enteros
+;(scan&parse "[+ 10,10]")
+;(scan&parse "[- 5,5]")
+;(scan&parse "[* 20,5]")
+;(scan&parse "[/ 100,10]")
+;(scan&parse "[add1 150,151]")
+;(scan&parse "[sub1 200,100]")

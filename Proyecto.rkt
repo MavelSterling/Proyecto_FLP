@@ -350,3 +350,27 @@
 ;(scan&parse "[/ 100,10]")
 ;(scan&parse "[add1 150,151]")
 ;(scan&parse "[sub1 200,100]")
+
+
+;Primitivas para Flotantes
+;(scan&parse "[+ 5.9,2.8]")
+;(scan&parse "[- 1.1,1.0]")
+;(scan&parse "[* 500.25,0]")
+;(scan&parse "[/ 500.100,250.211]")
+;(scan&parse "[add1 200.100,250.211]")
+;(scan&parse "[sub1 500.100,250.211]")
+;(scan&parse "[+ 5.9,2.8,[- 2,3]]")
+
+;Primitivas para Hexadecimales
+;(scan&parse "base8 48 +8 52;")
+;(scan&parse "base8 a -8 b;")
+;(scan&parse "base8 61 *8 11;")
+;(scan&parse "base8 61 ++8 11;")
+;(scan&parse "base8 61 --8 11;")
+;(scan&parse "base16 52 +16 11;")
+;(scan&parse "base16 12 -16 25;")
+;(scan&parse "base16 11 *16 25;")
+;(scan&parse "base16 27 ++16 42;")
+;(scan&parse "base32 100 +32 132;")
+;(scan&parse "base32 -200 -32 200;")
+;(scan&parse "base32 1000 *32 1000;")

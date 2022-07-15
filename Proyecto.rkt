@@ -280,9 +280,7 @@
   
   )
     
-
-    
-;Construcciones Automáticas
+;###########################Construcciones Automáticas###########################
 
 (sllgen:make-define-datatypes especificacion-lexica gramatica)
 

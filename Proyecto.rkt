@@ -387,3 +387,16 @@
 ;(scan&parse "[cola (lista (1,2,3,4,5,f,g))]")
 ;(scan&parse "[cabeza (lista (1,2,3,4,5,f,g))]")
 ;(scan&parse "[append lista(1,2,3,4,5,f,g)]")
+
+;Primitivas para Vectores
+;(scan&parse "[vector? vector{1,a,2,b}]")
+;(scan&parse "vector{0,1,2,3,4,5}")
+;(scan&parse "[vector? vector{1,2,3}]")
+;(scan&parse "[ref-vector vector{1,2,3}]")
+;(scan&parse "[set-vector vector{1,2,3}]")
+
+;Primitivas para Registros
+;(scan&parse "[registro? registro(a->4; b->$hola)]")
+;(scan&parse "registro(a->4; b->$prueba; c->123)")
+;(scan&parse "[ref-registro registro(a->$55; b->$100)]")
+;(scan&parse "[set-registro registro(a->b; b->a)]")

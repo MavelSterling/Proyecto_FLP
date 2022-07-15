@@ -317,3 +317,14 @@
 ;(scan&parse "$abc")
 ;(scan&parse "true")
 ;(scan&parse "false")
+
+;Constructores de Datos Predefinidos
+;(scan&parse "lista (4,2)")
+;(scan&parse "vector {4,2,a,b}")
+;(scan&parse "registro (a->4; b->6; c->8)")
+;(scan&parse "> (5,3)")
+;(scan&parse ">= (10,5)")
+;(scan&parse "< (5,3)")
+;(scan&parse "<= (10,5)")
+;(scan&parse "== (5,4)")
+;(scan&parse "!= (5,5)")

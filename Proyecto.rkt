@@ -133,6 +133,46 @@
     ;cadena: basado en Java
     (expresion (cadena) cadena-exp)
     
+    ;Constructores de Datos Predefinidos
+
+    ;primitiva: basado en Java, forma de escribir una primitiva.
+    (expresion ("[" primitiva (separated-list expresion ",") "]") primitiva-num)
+
+    ;lista: basado en Java
+    (expresion ("lista" "(" expresion (arbno "," expresion) ")") lista-exp)
+    
+    ;vector: basado en Java
+    (expresion ("vector" "{"(separated-list expresion ",") "}") vector-exp)
+    
+    ;registro: basado en Java
+    (expresion ("registro" "(" (separated-list identificador "->" expresion ";") ")") registro-exp)
+
+    ;expresiones booleanas: basadas en Java
+    (expresion (pred-prim "(" expresion "," expresion ")") pred-prim-bool)
+    (expresion (oper-bin-bool "(" expresion "," expresion")") oper-bin)
+    (expresion (bool) bool-expr-bool)
+    (expresion (oper-un-bool"(" expresion")") oper-un)
+
+    ;primitivas booleanas: basadas en Java
+    (pred-prim (">") mayor-bool)
+    (pred-prim (">=") mayor-igual-bool)
+    (pred-prim ("<") menor-bool)
+    (pred-prim ("<=") menor-igual-bool)
+    (pred-prim ("==") igual-bool)
+    (pred-prim ("!=") diferente-bool)
+
+    ;primitivas binarias booleanas: basadas en Java
+    (oper-bin-bool ("and") and-boolean-primitive)
+    (oper-bin-bool ("or")  or-boolean-primitive)
+
+    ;primitiva not booleana: basado en Java
+    (oper-un-bool ("not") not-boolean-primitive)
+
+    ;primitivas bool
+    (bool ("true") true->boolean)
+    (bool ("false") false->boolean)
+    
+    
 
     
 ;Construcciones Automáticas

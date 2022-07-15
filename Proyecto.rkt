@@ -6,7 +6,7 @@
 ;;Integrantes
 ;;#. Nombres completos            -   Código estudiantil
 ;;1. Sebastián Tutistar Valencia           2110309
-;;2. Mavelyng Sterling Londoño             1430871
+;;2. Mavelyn Sterling Londoño             1430871
 ;;3. Jefersson Danilo Arévalo              1926167
 
 ;Definición Backus-Naur form (BNF) para las expresiones del lenguaje:
@@ -91,15 +91,13 @@
 (define especificacion-lexica
 '((espacio-en-blanco (whitespace) skip)
   (comentario ("/*" (arbno (not #\newline))) skip)
-  ;(identificador ((or letter "_" "$")(arbno (or letter digit "-" ))) symbol)
+  (identificador(letter (arbno (or letter digit))) symbol)
   (nombre ("@" letter (arbno letter)) string)
-  ;(texto ("'" letter (arbno (or letter digit)) "'") string)
-  ;(var-null ("null") string)
   (numero (digit (arbno digit)) number) 
   (numero ("-" digit (arbno digit)) number)
   (numero (digit (arbno digit) "." digit (arbno digit)) number)
-  ;(caracter ("\'" letter "\'" ) symbol)
-  (cadena ("\""(or letter whitespace digit) (arbno (or whitespace letter digit)) "\"") string)
+  (caracter ("'"letter"'") symbol)
+  (cadena ("$"(or letter whitespace digit) (arbno (or whitespace letter digit))) string)
   )
 )
 

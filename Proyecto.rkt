@@ -103,6 +103,36 @@
 
 ;Especificación Sintáctica (gramática)
 
+(define gramatica
+
+  '(
+    (program (expresion) a-programa)
+    
+    ;Definiciones:
+
+    ;var: basado en Java, comienzan con var identificador = expresion
+    (expresion ("var" identificador "=" expresion)  var-exp)
+
+    ;const: basado en Java,comienzan con cons identificador = expresion
+    (expresion ("const" identificador "=" expresion) const-exp)
+
+    ;rec: basado en Java, comienzan con letrec identificador = expresion
+    (expresion ("rec" (arbno nombre "(" (separated-list nombre ",") ")" "=" expresion)  "in" expresion) rec-exp)
+    
+    ;Datos
+
+    ;identificador: basado en Java
+    (expresion (identificador) ide-exp)
+
+    ;numero: basado en Java
+    (expresion (numero) num-exp)
+
+    ;caracter: basado en Java
+    (expresion (caracter) caracter-exp)
+
+    ;cadena: basado en Java
+    (expresion (cadena) cadena-exp)
+    
 
     
 ;Construcciones Automáticas

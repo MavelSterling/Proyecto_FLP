@@ -4,46 +4,52 @@ La gramática tiene buena pinta, por favor asegúrense de incluir ejemplos scan&
 
 
 - El lenguaje maneja:
-    - Enteros
+    - Enteros..ok
         - Ejemplo scan&parse
-    - Flotantes
+    - Flotantes...ok
         - Ejemplo scan&parse
-    - Base 16
+    - Base 16...ok
         - Ejemplo scan&parse
-    - Cadenas
+    - Cadenas..ok
         - Ejemplo scan&parse
-    - Booleanos
+    - Booleanos..ok
         - Ejemplo scan&parse
-    - Procedimientos
+    - Procedimientos..ok
         - Ejemplo scan&parse
-    - Listas
+    - Listas...falta el cons...
         - Ejemplo scan&parse
-    - Registros
+    - Registros..ok
         - Ejemplo scan&parse
-    - Vectores
+    - Vectores..ok
         - Ejemplo scan&parse
 - Constantes
-        - Ejemplo scan&parse
+        - Ejemplo scan&parse...ojo falta una zona para utilización de constantes..igualmente en las variables
 - Variables de asignación única
         - Ejemplo scan&parse
-- Instrucción para asignar variables (Ejemplo scan&parse)
-- Condicionales (Ejemplo scan&parse)
-- Secuenciación (Ejemplo scan&parse)
-- Iteración (Ejemplo scan&parse)
-- Las 9 primitivas booleanas (Ejemplo scan&parse con las 9 primitivas)
-- 7 primitivas para enteros (Ejemplo scan&parse con las 7 primitivas)
-- 5 primitivas para Base 16 (Ejemplo scan&parse con las 5 primitivas)
-- 2 primitivas para cadenas (Ejemplo scan&parse con las 2 primitivas)
-- 7 primitivas y operadores sobre listas (Ejemplo scan&parse con las 7 primitivas)
-- Definición de procedimientos (Ejemplo scan&parse)
+- Instrucción para asignar variables (Ejemplo scan&parse)...no lo vi
+- Condicionales (Ejemplo scan&parse)..ok
+- Secuenciación (Ejemplo scan&parse)...ok
+- Iteración (Ejemplo scan&parse)...ok
+- Las 9 primitivas booleanas (Ejemplo scan&parse con las 9 primitivas)..ok (revisar que estén todas)
+- 7 primitivas para enteros (Ejemplo scan&parse con las 7 primitivas)..ok (revisar que estén todas)
+- 5 primitivas para Base 16 (Ejemplo scan&parse con las 5 primitivas)..ok (revisar que estén todas)
+- 2 primitivas para cadenas (Ejemplo scan&parse con las 2 primitivas)...ok (revisar que estén todas)
+- 7 primitivas y operadores sobre listas (Ejemplo scan&parse con las 7 primitivas)..ok (revisar que estén todas)
+- Definición de procedimientos (Ejemplo scan&parse)..ok
 - Invocación de procedimientos
-    - Especificación de paso de parámetros por valor y referencia (Ejemplo scan&parse donde se diferencie el envío por valor y el envío por referencia)
+    - Especificación de paso de parámetros por valor y referencia (Ejemplo scan&parse donde se diferencie el envío por valor y el envío por referencia)...falta paso por referencia
 - Definición de procedimientos recursivos (Ejemplo scan&parse)
 - Invocación de procedimientos recursivos
     - Especificación de paso de parámetros por valor y referencia (Ejemplo scan&parse donde se diferencie el envío por valor y el envío por referencia)
-- Soporte para escribir instancias SAT (Ejemplo scan&parse)
+- Soporte para escribir instancias SAT (Ejemplo scan&parse)...no lo vi
 
 Si mi lenguaje está completo, entonces puedo escribir programas interesantes, por ejemplo debería poder:
 - Escribir la solución del ejercicio 1 del taller 1
 - Escribir la solución del ejercicio 2 del taller 1
 
+;esto es lo deseable
+(scan&parse "var { y=50;
+                       x=20;
+                     }
+             [+(x,y)]
+    ")

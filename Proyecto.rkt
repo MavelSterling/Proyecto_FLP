@@ -280,6 +280,19 @@
     ;null: basado en Java
     (expresion ("null") null-exp)
     )
+    
+    ;Procedimientos
+      (procedure-exp (ids body) (eval-expresiones-procedure ids body env))
+      (procedure-call-exp (expr args) (eval-expresiones-call-procedure expr args env))
+      (recursive-exp (proc-names idss bodies letrec-body) (eval-expresiones-recursive proc-names idss bodies letrec-body env))
+
+      ;Asignación de Variables
+      (set-exp (id expr) (eval-expresiones-set id expr env))  
+
+      ;Hexadecimales [Base 8,16,32]
+      (bas8-exp (hex) (eval-expresiones-hexadecimales hex env))
+      ;(bas16-exp (hex) (eval-expresiones-hexa16 hex env))
+      ;(bas32-exp (hex) (eval-expresiones-hexa32 hex env))
   
   )
     

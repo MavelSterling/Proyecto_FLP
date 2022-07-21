@@ -385,6 +385,21 @@
       (instancia-sat-exp (first-int clauses)(eval-expresiones-sat first-int clauses ) )                                       
       (solve-instancia-sat-exp (id) (eval-expresiones-solve-sat id env))
       
+      )
+   )
+)
+
+;#######################Definición de Ambientes#######################
+
+;Definición del tipo de ambiente
+(define-datatype environment environment?
+  (empty-env-record)
+  (extended-env-record (vars (list-of variable?))
+                       (vec vector?)
+                       (env environment?)))
+
+(define scheme-value? (lambda (v) #t))
+      
 
 ;##############################Scan&Parser##############################
 

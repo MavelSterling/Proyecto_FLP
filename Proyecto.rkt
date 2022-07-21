@@ -305,7 +305,22 @@
 
 (define just-scan
    (sllgen:make-string-scanner especificacion-lexica gramatica))
+   
+;;El Interpretador                                                               
+(define interpreter
+  (sllgen:make-rep-loop "-->" (lambda (pgm) (eval-program  pgm)) (sllgen:make-stream-parser especificacion-lexica gramatica))
+)
 
+;;Definición (Eval-Program)
+(define eval-program
+  (lambda (pgm)
+    (cases program pgm
+      (a-programa (body)
+        (eval-expression body (init-env))
+      )
+    )
+  )
+)
 
 ;##############################Scan&Parser##############################
 

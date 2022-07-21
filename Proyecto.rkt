@@ -381,6 +381,10 @@
       ;Impresión de Variables                  
       (imp-exp (ex) (display  (eval-expression ex env)))
       
+      ;Instancias SAT                                              
+      (instancia-sat-exp (first-int clauses)(eval-expresiones-sat first-int clauses ) )                                       
+      (solve-instancia-sat-exp (id) (eval-expresiones-solve-sat id env))
+      
 
 ;##############################Scan&Parser##############################
 

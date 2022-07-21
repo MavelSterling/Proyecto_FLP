@@ -378,6 +378,9 @@
       ;(bas16-exp (hex) (eval-expresiones-hexa16 hex env))
       ;(bas32-exp (hex) (eval-expresiones-hexa32 hex env))
       
+      ;Impresión de Variables                  
+      (imp-exp (ex) (display  (eval-expression ex env)))
+      
 
 ;##############################Scan&Parser##############################
 

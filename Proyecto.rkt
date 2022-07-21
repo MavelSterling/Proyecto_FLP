@@ -351,6 +351,18 @@
                (if (target? (vector-ref vals pos) )
                    (vector-ref vals pos)
                    (indirect-target (apply-env-ref env ref))))))
+                   
+                   ;Constructores de Datos Predefinidos
+      (list-exp (expr-list) (eval-expresiones-listas expr-list env))                                                 
+      (vector-exp (expr-vec) (eval-expresiones-vectores expr-vec env))                                             
+      (registro-exp (ids exps) (eval-expresiones-registros ids exps env))
+      (expr-bool-exp (expres-bol) (eval-expresiones-booleanas expres-bol env))
+
+      ;Estructuras de Control
+      (begin-exp (expr exp-lists) (eval-expresiones-begin expr exp-lists env))
+      (if-exp (bool-exp true-expr false-expr) (eval-expresiones-if bool-exp true-expr false-expr env))  
+      (while-exp (bool-exp body) (eval-expresiones-while bool-exp body env))                                                   
+      (for-exp (id init-value goto final-value body) (eval-expresiones-for id init-value goto final-value body env))
 
 ;##############################Scan&Parser##############################
 

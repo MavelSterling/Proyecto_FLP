@@ -331,6 +331,27 @@
   )
 )
 
+;#########################Definición del Interprete###############################
+
+(define eval-expression
+  (lambda (exp env)
+    (cases expresion exp
+    
+      ;Datos
+      (ide-exp (id) (apply-env env id))
+      (num-exp (numb) (eval-exp-numeros numb))
+      (var-exp (vars vals body) (eval-expresiones-var vars vals body env))                                                     
+      (const-exp (vars vals body) (eval-expresiones-cons vars vals body env))
+      (cadena-exp (str) (eval-expresiones-cadenas str))
+      (caracter-exp (char) (eval-expresiones-caracteres char))
+      (primitive-exp (prim list-expres) (eval-expresiones-primitivas prim list-expres env))  
+      (refe-exp (ref)
+      (cases reference (apply-env-ref env ref)
+        (a-ref (pos vals mut) 
+               (if (target? (vector-ref vals pos) )
+                   (vector-ref vals pos)
+                   (indirect-target (apply-env-ref env ref))))))
+
 ;##############################Scan&Parser##############################
 
 ;Definiciones

@@ -322,6 +322,15 @@
   )
 )
 
+;;Ambiente Inicial
+(define init-env
+  (lambda ()
+    (extend-env '() '() 
+     (empty-env)
+    )
+  )
+)
+
 ;##############################Scan&Parser##############################
 
 ;Definiciones

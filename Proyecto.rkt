@@ -399,7 +399,15 @@
                        (env environment?)))
 
 (define scheme-value? (lambda (v) #t))
-      
+   ;Definición Ambiente Vacio
+(define empty-env  
+  (lambda ()
+    (empty-env-record)))       
+
+;Extensión del ambiente
+(define extend-env
+  (lambda (vars vals env)
+    (extended-env-record vars (list->vector vals) env)))
 
 ;##############################Scan&Parser##############################
 

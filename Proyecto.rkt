@@ -399,6 +399,7 @@
                        (env environment?)))
 
 (define scheme-value? (lambda (v) #t))
+
    ;Definición Ambiente Vacio
 (define empty-env  
   (lambda ()
@@ -408,6 +409,24 @@
 (define extend-env
   (lambda (vars vals env)
     (extended-env-record vars (list->vector vals) env)))
+
+;Procedimiento que busca un simbolo en un Ambiente
+(define apply-env
+  (lambda (env sym)
+    (de-ref (apply-env-ref env sym))
+  )
+)
+(define apply-env-ref
+  (lambda (env sym)
+    (cases environment env
+      (empty-env-record ()
+                        (eopl:error 'apply-env-ref "Simbolo desconocido" sym))
+      (extended-env-record (vars vals env)
+                           (let ((pos (encontrar-simbolo-en-vars sym vars)) (mut (encontrar-valor-mutable sym vars)) )
+                             (if (and (number? pos) (symbol? mut) )
+                                 (a-ref pos vals mut)
+                                 (apply-env-ref env sym)))))))
+    
 
 ;##############################Scan&Parser##############################
 

@@ -778,19 +778,28 @@
         (suma-base (multiplicacion-base (predecessor x) y) y))
     ))
 
-;##############################Scan&Parser##############################
+;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
+
+
+;Instancias SAT
+;(scan&parse "var x=FNC 4 ((1 or -2 or 3 or 4) and (-2 or 3) and (-1 or -2 or -3) and (3 or 4) and (2)) in *x.solve()")
+;(scan&parse "var x=FNC 2 ((1 or 2) and (-1) and (-2)) in *x.solve()")
 
 ;Definiciones
-;(scan&parse "var y=50")
-;(scan&parse "const t=null")
-;(scan&parse "letrec @x (@s,@d,@k) = q in t")
+;(scan&parse "var y=50, x=20 in [+ x,y]")
+;(scan&parse "const x=4 in set x=1") //No se puede modificar la constante x.
 
 ;Datos
 ;(scan&parse "5")
+;(scan&parse "-100")
+;(scan&parse "5.5")
 ;(scan&parse "a")
 ;(scan&parse "$abc")
 ;(scan&parse "true")
 ;(scan&parse "false")
+;(scan&parse "'w'")
+;(scan&parse "null")
+;(scan&parse "&STV") //Paso por referencia
 
 ;Constructores de Datos Predefinidos
 ;(scan&parse "lista (4,2)")
@@ -804,73 +813,90 @@
 ;(scan&parse "!= (5,5)")
 
 ;Estructuras de Control
-;(scan&parse "begin x;s;d end")
+;(scan&parse "begin set z = 1; set p = 9 end")
+;(scan&parse "var y=5 in begin set y= [+ y,1]; print(y) end")
 ;(scan&parse "if( >(5,3)) {5} else {0} ")
 ;(scan&parse "if( >(5,3)) {true} else {false} ")
-;(scan&parse "while (!=(i,0)) do {$holaMundo}")
-;(scan&parse "for x=0 to <(x,100) do {2} end")
-;(scan&parse "for x=0 to 100 do {if(==(x,100)) {true} else {false} } end")
+;(scan&parse "if (==(5,9)) {if (>=(10,20)){6} else {3}} else{4}")
+;(scan&parse "var x = 5,y=0 in while (>(x,y)) do {begin set y= [+ y,1]; print(y) end}")
+;(scan&parse "for {x=2; to 5} do $a")
+;(scan&parse "for {x=2; to 100} do proc(a,b,c) {true}")
 
 ;Procedimientos
-
-;(scan&parse "let x=1000")
 ;(scan&parse "proc(a,b,c){true}")
 ;(scan&parse "invocar x (registro (a->1; b->2))")
+;(scan&parse "rec f(x)= if(==(x,0)){1} else {[* x,invocar f([sub1 x])]} in invocar f(5)")
 
 ;Primitivas para Enteros
 ;(scan&parse "[+ 10,10]")
 ;(scan&parse "[- 5,5]")
 ;(scan&parse "[* 20,5]")
-;(scan&parse "[/ 100,10]")
-;(scan&parse "[add1 150,151]")
-;(scan&parse "[sub1 200,100]")
-
+;(scan&parse "[% 100,10]")
+;(scan&parse "[/ 1000,50]")
+;(scan&parse "[add1 150]")
+;(scan&parse "[sub1 200]")
 
 ;Primitivas para Flotantes
 ;(scan&parse "[+ 5.9,2.8]")
 ;(scan&parse "[- 1.1,1.0]")
 ;(scan&parse "[* 500.25,0]")
 ;(scan&parse "[/ 500.100,250.211]")
-;(scan&parse "[add1 200.100,250.211]")
-;(scan&parse "[sub1 500.100,250.211]")
+;(scan&parse "[add1 205.5]")
+;(scan&parse "[sub1 500]")
 ;(scan&parse "[+ 5.9,2.8,[- 2,3]]")
 
-;Primitivas para Hexadecimales
-;(scan&parse "base8 48 +8 52;")
-;(scan&parse "base8 a -8 b;")
-;(scan&parse "base8 61 *8 11;")
-;(scan&parse "base8 61 ++8 11;")
-;(scan&parse "base8 61 --8 11;")
-;(scan&parse "base16 52 +16 11;")
-;(scan&parse "base16 12 -16 25;")
-;(scan&parse "base16 11 *16 25;")
-;(scan&parse "base16 27 ++16 42;")
-;(scan&parse "base32 100 +32 132;")
-;(scan&parse "base32 -200 -32 200;")
-;(scan&parse "base32 1000 *32 1000;")
+;Primitivas para Hexadecimales [Base 8]
+;(scan&parse "x8(2 1 4 0 7)")
+;(scan&parse "x8([+ 5,5])")
+;(scan&parse "x8([- 7, 5])")
+;(scan&parse "x8([* 10,10])")
+;(scan&parse "x8([/ 5,5])")
+;(scan&parse "x8([add1 2])")
+;(scan&parse "x8([sub1 1])")
+
+;(scan&parse "x16(4 1 0 7 14)")
+;(scan&parse "x16([+ 700,500])")
+;(scan&parse "x16([- 1997,2022])")
+;(scan&parse "x16([* 5,5])")
+;(scan&parse "x16([/ 12,12])")
+;(scan&parse "x16([add1 999])")
+;(scan&parse "x16([sub1 1000])")
+
+;(scan&parse "x32(0 23 12)")
+;(scan&parse "x32([+ 1,2])")
+;(scan&parse "x32([- 23,12])")
+;(scan&parse "x32([* 23,5])")
+;(scan&parse "x32([/ 0,12])")
+;(scan&parse "x32([add1 12])")
+;(scan&parse "x32([sub1 5])")
 
 ;Primitivas para Cadenas
-;(scan&parse "[longitud $hola, $mundo, $4]")
-;(scan&parse "[concatenar $flp, 2022, II]")
-;(scan&parse "[longitud [concatenar $hola, $mundo, $4]]")
+;(scan&parse "[longitud $fundamentos]")
+;(scan&parse "[concatenar $flp , $II ]")
+;(scan&parse "[longitud [concatenar $hola , $mundo ]]")
 
 ;Primitivas para Listas
-;(scan&parse "[vacio? lista(0,1)]")
-;(scan&parse "[vacio lista(0,1,2)]")
-;(scan&parse "[lista? lista(1,2,3,4,5,f,g)]")
-;(scan&parse "[cola (lista (1,2,3,4,5,f,g))]")
-;(scan&parse "[cabeza (lista (1,2,3,4,5,f,g))]")
-;(scan&parse "[append lista(1,2,3,4,5,f,g)]")
+;(scan&parse "[vacio? lista (1,2,3)]")
+;(scan&parse "[vacio? lista ()])"
+;(scan&parse "[vacio lista ()]")
+;(scan&parse "[vacio lista (1,2,3)]")
+;(scan&parse "[lista? 1,2,3]")
+;(scan&parse "[crear-lista 1,2,3]")
+;(scan&parse "[crear-lista 1,$hola ]")
+;(scan&parse "[cabeza lista (17,$a , 21)]")
+;(scan&parse "[cola lista (17,$a , 21)]")
+;(scan&parse "[append lista (17,$a , 21), lista (5,4)]")
 
 ;Primitivas para Vectores
-;(scan&parse "[vector? vector{1,a,2,b}]")
 ;(scan&parse "vector{0,1,2,3,4,5}")
 ;(scan&parse "[vector? vector{1,2,3}]")
-;(scan&parse "[ref-vector vector{1,2,3}]")
-;(scan&parse "[set-vector vector{1,2,3}]")
+;(scan&parse "[vector? [crear-vector 1,2,3,4]]")
+;(scan&parse "[crear-vector 1,2,3,4]")
+;(scan&parse "[ref-vector vector{1,2,3,10,15},4]")
+;(scan&parse "[set-vector vector{1,2,3,10,15},4,50]")
 
 ;Primitivas para Registros
 ;(scan&parse "[registro? registro(a->4; b->$hola)]")
-;(scan&parse "registro(a->4; b->$prueba; c->123)")
-;(scan&parse "[ref-registro registro(a->$55; b->$100)]")
-;(scan&parse "[set-registro registro(a->b; b->a)]")
+;(scan&parse "registro(a->4; b->$prueba ; c->123)")
+;(scan&parse "[ref-registro registro(a->$holamundo; b->$100)]")
+;(scan&parse "[crear-registro registro(a->4; b->$hola), [set-registro registro(a->5; b->$mundo)]]")

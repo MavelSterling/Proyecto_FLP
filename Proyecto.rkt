@@ -735,6 +735,23 @@
 )
 )
 
+; Implementación de cadenas.
+
+(define implementacion-exp-cadenas     
+  (lambda (str)
+    (substring str 1 (- (string-length str) 1))
+  )
+)
+
+; Implementación de caracteres.
+
+(define implementacion-exp-caracteres
+  (lambda (str)
+    (string->symbol (substring str 1 (- (string-length str) 1)))
+  )
+)
+
+
 ;##############################Scan&Parser##############################
 
 ;Definiciones

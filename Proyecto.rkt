@@ -1049,6 +1049,26 @@
   )
 )
 
+; Implementación de instancias SAT
+
+(define implementacion-exp-sat
+  (lambda (first-int clauses )
+    (instancia-sat first-int (implementacion-exp-or-sat clauses))
+  )
+)
+; Implementación de clausulas or.
+
+(define implementacion-exp-or-sat
+  (lambda (clausulas)
+    (cond
+      ((null? clausulas) empty)
+      (else
+       (cons (cases clausula-or (car clausulas) (clausula-or-exp (nums) nums)) (implementacion-exp-or-sat (cdr clausulas)))            
+      )
+    )
+  )
+)
+
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 
 

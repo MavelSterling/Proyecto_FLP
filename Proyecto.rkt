@@ -185,6 +185,14 @@
     (bool ("true") true->boolean)
     (bool ("false") false->boolean)
     
+    ;Definición de expresiones hexadecimales
+
+    ;Base [8,16,32]
+    
+    (expresion ("x8(" (arbno expresion)")") hexadecimal-exp)
+    (expresion ("x16(" (arbno expresion)")") hexadecimal-exp)
+    (expresion ("x32(" (arbno expresion)")") hexadecimal-exp)
+    
     ;Estructuras de Control
 
     ;begin: basado en Java
@@ -200,6 +208,11 @@
     (expresion ("for" "{" identificador "=" expresion ";" to expresion "}" "do" expresion) for-exp)
     (to ("to") to-for)
     (to ("downto") down-for)
+    
+    ;Asignación de Variables
+    
+    ;set: basado en Java
+    (expresion ("set" identificador "=" expresion) set-exp)
 
     ;Procedimientos
     

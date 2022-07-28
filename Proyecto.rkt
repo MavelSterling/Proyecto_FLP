@@ -1028,6 +1028,27 @@
   )
 )
 
+
+; Implementación auxiliar crea un ambiente extendido para procedimientos recursivos.
+
+(define extend-env-recursively
+  (lambda (proc-names idss bodies old-env)
+    (let ((len (length proc-names)))
+      (let ((vec (make-vector len)))
+        (let ((env (extended-env-record (map (lambda (id) (mutable id))proc-names) vec old-env)))
+          (for-each
+            (lambda (pos ids body)
+              (vector-set! vec pos (closure ids body env))
+            )
+            (iota len) idss bodies
+          )
+          env
+      )
+     )
+   )
+  )
+)
+
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 
 

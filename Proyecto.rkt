@@ -623,6 +623,55 @@
   (arbol-vacio)
 )
 
+;||||||||||||||||||||||||[Desarrollo de Implementaciones]||||||||||||||||||||||||
+
+; Implementación para evaluar expresiones númericas.
+
+(define implementacion-exp-numeros
+  (lambda (numb)
+    (cases num numb
+     (entero->numero (numb) numb)
+     (float->numero (numb) numb)
+    )
+  )
+)
+
+; Implementación para evaluar expresiones booleanas.
+
+(define implementacion-exp-booleanas
+  (lambda (expr env)
+    (cases  expr-bool expr
+      (pred-prim-bool (pred first-expr second-expr)
+                      (cases pred-prim pred
+                        (menor-bool() (if (< (eval-expression first-expr env) (eval-expression second-expr env)) true-value false-value))
+                        (mayor-bool() (if (> (eval-expression first-expr env) (eval-expression second-expr env)) true-value false-value))
+                        (mayor-igual-bool() (if (>= (eval-expression first-expr env) (eval-expression second-expr env)) true-value false-value))
+                        (menor-igual-bool() (if (<= (eval-expression first-expr env) (eval-expression second-expr env)) true-value false-value))
+                        (igual-bool() (if (equal? (eval-expression first-expr env) (eval-expression second-expr env)) true-value false-value))
+                        (diferente-bool() (if (not (equal? (eval-expression first-expr env) (eval-expression second-expr env))) true-value false-value))
+                        )
+                      )
+      (oper-bin (pred first-expr second-expr)
+                (cases oper-bin-bool pred
+                  (and-boolean-primitive() (if (and (isTrue? (eval-expression first-expr env)) (isTrue? (eval-expression second-expr env))) true-value false-value))
+                  (or-boolean-primitive() (if (or (isTrue? (eval-expression first-expr env)) (isTrue? (eval-expression second-expr env))) true-value false-value)) 
+                  )
+                )
+      (oper-un (unary-prim  bool-exp)
+               (cases oper-un-bool unary-prim
+                 (not-boolean-primitive() (if (isTrue? (eval-expression bool-exp env)) false-value true-value))
+                 )
+               )
+      (bool-expr-bool (bool)
+                      (cases  boolean bool 
+                        (true->boolean() true-value)
+                        (false->boolean() false-value)
+                        )
+                      )
+      )
+    )
+)
+
 ;##############################Scan&Parser##############################
 
 ;Definiciones

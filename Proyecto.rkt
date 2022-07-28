@@ -118,9 +118,6 @@
     (expresion ("var" (separated-list identificador "=" expresion ",") "in" expresion) var-exp)
 
     ;const: basado en Java,comienzan con cons identificador = expresion
-    (expresion ("const" identificador "=" expresion) const-exp)
-
-    ;rec: basado en Java, comienzan con letrec identificador = expresion
     (expresion ("const" (separated-list identificador "=" expresion ",") "in" expresion) const-exp)
     
     ;Datos
@@ -128,8 +125,11 @@
     ;identificador: basado en Java
     (expresion (identificador) ide-exp)
 
-    ;numero: basado en Java
-    (expresion (numero) num-exp)
+    ;numero: basado en Java (diferenciación entre enteros y floats)
+    (expresion (num) num-exp)
+    (num (numero) entero->numero)
+    (num (float)  float->numero)
+
 
     ;caracter: basado en Java
     (expresion (caracter) caracter-exp)
@@ -143,16 +143,19 @@
     ;imp-exp: basado en Java
     (expresion ("print("expresion")") imp-exp)
     
+    ;expr-bool: basado en Java
+    (expresion (expr-bool) expr-bool-exp)
+    
     ;null-exp
     (expresion (null) null-exp)
 
     ;Constructores de Datos Predefinidos
 
     ;primitiva: basado en Java, forma de escribir una primitiva.
-    (expresion ("[" primitiva (separated-list expresion ",") "]") primitiva-num)
+    (expresion ("[" primitiva (separated-list expresion ",") "]") primitive-exp)
 
     ;lista: basado en Java
-    (expresion ("lista" "(" expresion (arbno "," expresion) ")") list-exp)
+    (expresion ("lista (" (separated-list expresion ",") ")") list-exp)
     
     ;vector: basado en Java
     (expresion ("vector" "{"(separated-list expresion ",") "}") vector-exp)
@@ -161,10 +164,14 @@
     (expresion ("registro" "(" (separated-list identificador "->" expresion ";") ")") registro-exp)
 
     ;expresiones booleanas: basadas en Java
-    (expresion (pred-prim "(" expresion "," expresion ")") pred-prim-bool)
-    (expresion (oper-bin-bool "(" expresion "," expresion")") oper-bin)
-    (expresion (bool) bool-expr-bool)
-    (expresion (oper-un-bool"(" expresion")") oper-un)
+    (expr-bool (pred-prim "(" expresion "," expresion ")") pred-prim-bool)
+    (expr-bool (oper-bin-bool "(" expresion "," expresion")") oper-bin)
+    (expr-bool (oper-un-bool"(" expresion")") oper-un)
+    (expr-bool (boolean) bool-expr-bool)
+
+    ;Valores de base bool: basadas en Java
+    (boolean ("true") true->boolean)
+    (boolean ("false") false->boolean)
 
     ;primitivas booleanas: basadas en Java
     (pred-prim (">") mayor-bool)
@@ -180,10 +187,6 @@
 
     ;primitiva not booleana: basado en Java
     (oper-un-bool ("not") not-boolean-primitive)
-
-    ;primitivas bool
-    (bool ("true") true->boolean)
-    (bool ("false") false->boolean)
     
     ;Definición de expresiones hexadecimales
 
@@ -216,14 +219,14 @@
 
     ;Procedimientos
     
-    ;let: basado en Java
-    (expresion ("let" identificador "=" expresion) let-exp)
-  
     ;proc: basado en Java
     (expresion ("proc" "("(separated-list identificador ",") ")" "{" expresion "}") procedure-exp)
     
     ;invocar: basado en Java
     (expresion ("invocar" expresion "(" (separated-list expresion ",") ")") procedure-call-exp)
+    
+    ;rec: basado en Java
+    (expresion ("rec" (arbno identificador "(" (separated-list identificador ",") ")" "=" expresion)  "in" expresion)  recursive-exp)
     
     ;Instancias B-SAT
     (expresion ("FNC" numero "(" (separated-list clausula-or "and") ")") instancia-sat-exp)
@@ -248,28 +251,31 @@
     ;concatenar: basado en Java
     (primitiva ("concatenar") prim-concatenar)
 
-    ;Primitivas sobre listas
+   ;Primitivas [Listas, Vectores, Registros]
 
+    ;primitivas sobre listas
     (primitiva ("vacio?") lst-vacio?)
     (primitiva ("vacio") lst-vacio)
     (primitiva ("lista?") lst-lista?)
-    (primitiva ("cabeza" "(" expresion ")") lst-cabeza)
-    (primitiva ("cola" "(" expresion ")") lst-cola)
+    (primitiva ("crear-lista") lst-create)
+    (primitiva ("cabeza") lst-cabeza)
+    (primitiva ("cola") lst-cola)
     (primitiva ("append") lst-append)
     
-    ;Primitivas sobre vectores
+    ;primitivas sobre vectores
     (primitiva ("vector?") vec-vector?)
     (primitiva ("ref-vector") vec-ref-vector)
     (primitiva ("set-vector") vec-set-vector)
     (primitiva ("crear-vector") vec-crear-vector)
     
-     ;Primitivas sobre registros
+    ;primitivas sobre registros
     (primitiva ("registro?") reg-reg?)
     (primitiva ("ref-registro") reg-ref)
     (primitiva ("set-registro") reg-set)
     (primitiva ("crear-registro") reg-crear)
     
   )
+)
     
 ;||||||||||||||||||||||||Construcciones Automáticas||||||||||||||||||||||||
 
@@ -663,6 +669,8 @@
       )
     )
     
+    )
+    
     
     ; Implementación para evaluar procedimientos de tipo procval.
 
@@ -725,7 +733,6 @@
       )
   )
 )
-)
 
 ; Implementación de cadenas.
 
@@ -743,8 +750,7 @@
   )
 )
 
-
-; Implementación de operaciones hexadecimales.
+; Implementación de hexadecimales.
 
 (define eval-expresiones-hexadecimales
   (lambda (expr env)
@@ -769,7 +775,7 @@
         (zero)
         (suma-base (multiplicacion-base (predecessor x) y) y))
     ))
-
+    
 
 ; Gramática
 ; <bignum> ::= (empty) | (number <bignum>)
@@ -785,7 +791,7 @@
 ; Definición de función successor que recibe como un argumento un numero entero no negativo y retorna el sucesor de ese numero.
 
 (define successor
-  (lambda (y)
+  (lambda (n)
     (cond
       [(is-zero? n) (cons 1 empty)]
       [(< (car n) 15) (cons (+ (car n) 1) (cdr n))]
@@ -798,7 +804,7 @@
 ; el predecesor de zero no esta definido.
 
 (define predecessor
-  (lambda (y)
+  (lambda (n)
     (cond
     [(is-zero? n) (eopl:error "no hay predecesor de cero" )]
     [(is-zero? (cdr n))

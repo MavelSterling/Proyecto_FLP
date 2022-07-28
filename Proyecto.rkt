@@ -1009,6 +1009,25 @@
   )
 )
 
+; Implementación ciclo for - recursivo.
+
+(define for-recursivo
+  (lambda (id final-value body goto env)
+    (cases to goto
+      (to-for () (if (< (apply-env env id ) (eval-expression final-value env)) (begin (eval-expression body env) (for-recursivo id final-value body goto env)) 1)   )
+      (down-for () (if (> (apply-env env id ) (eval-expression final-value env)) (begin (eval-expression body env) (for-recursivo id final-value body goto env)) 1) )
+    )   
+  )
+)
+
+; Implementación expresión recursiva
+
+(define implementacion-exp-recursivo
+  (lambda ( proc-names idss bodies letrec-body env)
+    (eval-expression letrec-body (extend-env-recursively proc-names idss bodies env))
+  )
+)
+
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 
 

@@ -242,11 +242,13 @@
     (primitiva ("vector?") vec-vector?)
     (primitiva ("ref-vector") vec-ref-vector)
     (primitiva ("set-vector") vec-set-vector)
+    (primitiva ("crear-vector") vec-crear-vector)
     
      ;Primitivas sobre registros
     (primitiva ("registro?") reg-reg?)
     (primitiva ("ref-registro") reg-ref)
     (primitiva ("set-registro") reg-set)
+    (primitiva ("crear-registro") reg-crear)
     
     ;& referencia basada en Java 
     (expresion ("&" nombre) refe-exp)

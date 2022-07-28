@@ -1142,6 +1142,27 @@
   )
 )
 
+; Implementación aux-generar-arbol que retorna un arbol de tipo SAT con N niveles.
+
+(define aux-generar-arbol
+  (lambda (val n)
+    (cond
+      ((equal? n 0) (arbol-vacio))
+      (else (nodo val (aux-generar-arbol 1 (- n 1)) (aux-generar-arbol 0 (- n 1))))
+     )
+   )
+)
+; Implementación generar-arbol-con-combinaciones que retorna un arbol de tipo SAT de N niveles, donde la raíz es -1 y los demás nodos poseen 1.
+
+(define generar-arbol-con-combinaciones
+  (lambda (n)
+    (cond
+      ((equal? n 0) (arbol-vacio))
+      (else (nodo -1 (aux-generar-arbol 1 n) (aux-generar-arbol 0 n)) )
+      )
+  )
+)
+
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 
 

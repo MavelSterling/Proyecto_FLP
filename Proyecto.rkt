@@ -225,6 +225,11 @@
     ;invocar: basado en Java
     (expresion ("invocar" expresion "(" (separated-list expresion ",") ")") procedure-call-exp)
     
+    ;Instancias B-SAT
+    (expresion ("FNC" numero "(" (separated-list clausula-or "and") ")") instancia-sat-exp)
+    (clausula-or ("("  (separated-list numero "or") ")") clausula-or-exp)
+    (expresion ("*"identificador".solve()") solve-instancia-sat-exp)
+    
     ;Primitivas aritméticas para enteros
 
     (primitiva ("+") primitiva-sum)

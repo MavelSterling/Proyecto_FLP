@@ -136,6 +136,15 @@
     ;cadena: basado en Java
     (expresion (cadena) cadena-exp)
     
+     ;& referencia basada en Java 
+    (expresion ("&" identificador) refe-exp)
+
+    ;imp-exp: basado en Java
+    (expresion ("print("expresion")") imp-exp)
+    
+    ;null-exp
+    (expresion (null) null-exp)
+
     ;Constructores de Datos Predefinidos
 
     ;primitiva: basado en Java, forma de escribir una primitiva.

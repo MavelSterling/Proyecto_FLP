@@ -778,6 +778,47 @@
         (suma-base (multiplicacion-base (predecessor x) y) y))
     ))
 
+
+; Gramática
+; <bignum> ::= (empty) | (number <bignum>)
+
+; Definición de función zero que no recibe ningun argumento y retorna una lista vacia.
+
+(define zero (lambda () empty ) )
+
+; Definición de función is-zero? que recibe un numero cualquiera y determina si es igual a 0.
+
+(define is-zero? (lambda (n) (null? n)))
+
+; Definición de función successor que recibe como un argumento un numero entero no negativo y retorna el sucesor de ese numero.
+
+(define successor
+  (lambda (y)
+    (cond
+      [(is-zero? n) (cons 1 empty)]
+      [(< (car n) 15) (cons (+ (car n) 1) (cdr n))]
+      [else (cons 0 (successor (cdr n)))]
+    )               
+  )
+)
+
+; Definición de función predecessor que recibe como argumento un numero entero no negativo y retorna el predecesor de ese numero
+; el predecesor de zero no esta definido.
+
+(define predecessor
+  (lambda (y)
+    (cond
+    [(is-zero? n) (eopl:error "no hay predecesor de cero" )]
+    [(is-zero? (cdr n))
+     (if (equal? (car n) 1) empty (cons (- (car n) 1) empty) )
+    ]
+    [(> (car n) 0) (cons (- (car n) 1) (cdr n))]
+    [else (cons 15 (predecessor (cdr n)))]
+   )
+  )
+)
+
+
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 
 

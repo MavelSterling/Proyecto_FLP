@@ -985,6 +985,29 @@
   )
 )
 
+; Implementación de while.
+
+(define implementacion-exp-while
+        (lambda (bool-exp body env)
+          (if (isTrue? (eval-expression bool-exp env)) (begin (eval-expression body env) (implementacion-exp-while bool-exp body env)) 'ok)
+        )
+)
+
+; Implementación del if.
+
+(define implementacion-exp-if
+  (lambda (bool-exp true-expr false-expr env)
+    (if (isTrue? (eval-expression bool-exp env)) (eval-expression  true-expr env) (eval-expression false-expr env))
+  )
+)
+
+; Implementación ciclo for.
+
+(define implementacion-exp-for
+  (lambda (id init-value goto final-value body env)
+    (for-recursivo id final-value body goto (extend-env (list (mutable id)) (list (eval-expression init-value env)) env))
+  )
+)
 
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 

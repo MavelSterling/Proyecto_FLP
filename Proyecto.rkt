@@ -196,7 +196,9 @@
     (expresion ("while" "("expresion")" "do" "{"expresion"}" ) while-exp)
 
     ;for: basado en Java
-    (expresion ("for" identificador "=" expresion "to" expresion "do" "{"expresion"}" "end") for-exp)
+    (expresion ("for" "{" identificador "=" expresion ";" to expresion "}" "do" expresion) for-exp)
+    (to ("to") to-for)
+    (to ("downto") down-for)
 
     ;Procedimientos
     

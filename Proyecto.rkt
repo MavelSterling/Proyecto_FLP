@@ -752,6 +752,32 @@
 )
 
 
+; Implementación de operaciones hexadecimales.
+
+(define eval-expresiones-hexadecimales
+  (lambda (expr env)
+     (implementacion-exp-listas expr env)
+  )
+)
+(define suma-base
+  (lambda (x y)
+    (if (is-zero? x)
+        y
+        (successor (suma-base (predecessor x) y)))))
+
+(define resta-base
+  (lambda (x y)
+    (if (is-zero? y)
+        x
+        (predecessor (resta-base  x (predecessor y))))))
+
+(define multiplicacion-base
+  (lambda (x y)
+    (if (is-zero? x)
+        (zero)
+        (suma-base (multiplicacion-base (predecessor x) y) y))
+    ))
+
 ;##############################Scan&Parser##############################
 
 ;Definiciones

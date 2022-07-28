@@ -818,6 +818,77 @@
   )
 )
 
+; Implementación de listas.
+
+(define implementacion-exp-listas
+ (lambda (exprs env)
+  (cond
+   ((null? exprs) empty)
+   (else
+      (cons (eval-expression (car exprs) env) (implementacion-exp-listas (cdr exprs) env))
+   )
+  )
+ )
+)
+
+
+; Implementación de vectores.
+
+(define implementacion-exp-vectores
+  (lambda (expr-vec env)
+    (let ([v (make-vector (length expr-vec))] [i 0])
+      (begin
+        (for-each (lambda (arg) (begin (vector-set! v i (eval-expression (list-ref expr-vec i) env)) (set! i (+ i 1)))) expr-vec )
+       v
+      )
+    )
+  )
+)
+
+; Implementación de registros.
+
+(define implementacion-exp-registros
+  (lambda (ids exps env)
+    (registro-base (map (lambda (id) (symbol->string id) ) ids)  (list->vector (implementacion-exp-listas exps env)) )
+  )
+)
+(define values? 
+  (lambda (any)
+    #t
+  )
+)
+(define-datatype registro registro?
+  (registro-base (ids (list-of string?)) (vals vector? ))
+  
+)
+(define pos-simbolo 
+  (lambda (simbolo lista pos)
+    (cond
+      [(null? lista) -1]
+      [(equal? simbolo (car lista)) pos]
+      [else (pos-simbolo simbolo (cdr lista) (+ pos 1))]
+    )
+  )
+
+)
+(define set-registro 
+  (lambda (id val lista vec)
+    (begin
+      (define pos (pos-simbolo id lista 0))
+      (if (equal? -1 pos) (eopl:error "Tecla inválida") (vector-set! vec pos val))
+    )
+  
+  )
+)
+(define get-registro
+  (lambda (id  lista vec)
+    (begin
+      (define pos (pos-simbolo id lista 0))
+      (if (equal? -1 pos) (eopl:error "Tecla inválida") (vector-ref vec pos))
+    )
+  )
+)
+
 
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 

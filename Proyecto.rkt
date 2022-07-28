@@ -912,6 +912,55 @@
   )
 )
 
+; Implementación de primitivas.
+
+(define implementacion-exp-primitivas
+  (lambda (prim list-expres env)
+    (let ([exprs  (implementacion-exp-listas list-expres env)] )
+    (cases primitiva prim
+
+      ;Primitivas +,-,*,/,%,add1,sub1
+
+      (primitiva-sum () (if (and (list? (car exprs)) (list? (cadr exprs)))(suma-base (car exprs) (cadr exprs))(+ (car exprs) (cadr exprs)))) 
+      (primitiva-rest () (if (and (list? (car exprs)) (list? (cadr exprs))) (resta-base (car exprs) (cadr exprs)) (-   (car exprs) (cadr exprs)))) 
+      (primitiva-mult () (if (and (list? (car exprs)) (list? (cadr exprs))) (multiplicacion-base (car exprs) (cadr exprs)) (* (car exprs) (cadr exprs))))   
+      (primitiva-div () (/ (car exprs) (cadr exprs))) 
+      (primitiva-mod () (modulo (car exprs) (cadr exprs)))
+      (incr-prim () (if (list? (car exprs)) (successor (car exprs)) (+ (car exprs) 1)))              
+      (decr-prim ()(if (list? (car exprs)) (predecessor (car exprs)) (- (car exprs) 1)))
+
+      ;Primitivas para strings (concat-long).
+      
+      (prim-concatenar () (string-append (car exprs)(cadr exprs)))
+      (prim-longitud () (string-length (car exprs)))
+
+      ;Primitivas para listas.
+      (lst-create () (cons (car exprs) (cadr exprs)) )
+      (lst-append () (append (car exprs) (cadr exprs)) )
+      (lst-vacio? () (if (equal? (car exprs) empty) true-value false-value))
+      (lst-lista? () (if (list? (car exprs)) true-value false-value ))
+      (lst-cabeza () (caar exprs))
+      (lst-cola () (cdr(car exprs)))
+      (lst-vacio ()empty)
+
+      ;Primitivas para vectores.
+      
+      (vec-ref-vector () (vector-ref (car exprs) (cadr exprs)))
+      (vec-set-vector() (begin (vector-set! (car exprs) (cadr exprs) (caddr exprs)) 'CambioExitoso))
+      (vec-vector? () (if (vector? (car exprs)) true-value false-value))
+      (vec-crear-vector () (make-vector (car exprs) 'CreaciónDeVectorExitoso))
+
+      ;Primitivas para registros.
+      
+      (reg-reg? () (if (registro? (car exprs)) true-value false-value))
+      (reg-set () (if (registro? (car exprs)) (cases registro (car exprs)(registro-base ( ids vals) (begin (set-registro (cadr exprs) (caddr exprs) ids vals) 1) ) )  (eopl:error "No es un registro")))
+      (reg-ref () (if (registro? (car exprs)) (cases registro (car exprs)(registro-base (ids vals)  (get-registro (cadr exprs) ids vals ))) (eopl:error "No es un registro")))
+      (reg-crear () (registro-base (car exprs) (list->vector (cadr exprs)))) 
+    )
+   )
+  )
+)
+
 
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 

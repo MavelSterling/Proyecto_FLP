@@ -670,6 +670,69 @@
                       )
       )
     )
+    
+    
+    ; Implementación para evaluar procedimientos de tipo procval.
+
+(define-datatype procval procval?
+  (closure
+   (ids (list-of symbol?))
+   (body expresion?)
+   (env environment?)
+   )
+  )
+
+; Función que evalua el cuerpo de un procedimientos en el ambiente extendido.
+
+(define apply-procedure
+  (lambda (proc args)
+    (cases procval proc
+      (closure (ids body env)
+               (eval-expression body (extend-env  (definir-mutabilidad ids args) args env)
+                                )))))
+
+; Función que define la mutabilidad de los argumentos envíados.
+
+(define definir-mutabilidad
+  (lambda (ids args)
+   (cond
+     ((null? ids) empty)
+     (else (if (target? (car args))
+               (cases target (car args)
+                 (indirect-target (ref) (cases reference ref (a-ref (pos vec mut)
+           (if (equal? mut 'M)
+                (cons (mutable (car ids)) (definir-mutabilidad (cdr ids) (cdr args)))
+                (cons (inmutable (car ids)) (definir-mutabilidad (cdr ids) (cdr args)))
+                )))))
+                (cons (mutable (car ids)) (definir-mutabilidad (cdr ids) (cdr args)))
+       )
+     )
+   )
+  )
+)
+
+; Implementación de tipo procedure.
+
+(define implementacion-exp-procedure        
+  (lambda (ids body env)
+    (closure ids body env)
+  )
+)
+; Implementación de tipo call-procedure.
+
+(define implementacion-exp-call-procedure       
+  (lambda (expr args env)
+    (let (
+        (proc (eval-expression expr env))
+          (argumentos  (implementacion-exp-listas args env))
+         )  
+         (if (procval? proc)
+                     (apply-procedure proc argumentos)
+                     (eopl:error 'eval-expression
+                                 "No se puede aplicar el procedimiento para ~s" proc))
+      )
+  )
+)
 )
 
 ;##############################Scan&Parser##############################

@@ -93,6 +93,7 @@
 '((espacio-en-blanco (whitespace) skip)
   (comentario ("/*" (arbno (not #\newline))) skip)
   (identificador(letter (arbno (or letter digit))) symbol)
+  (null ("null") string)
   (nombre ("@" letter (arbno letter)) string)
   (numero (digit (arbno digit)) number) 
   (numero ("-" digit (arbno digit)) number)

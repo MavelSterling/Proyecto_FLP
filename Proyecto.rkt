@@ -1069,6 +1069,57 @@
   )
 )
 
+; Implementación solve instancia SAT
+
+(define implementacion-exp-resolver-sat
+  (lambda (id env)
+      (if (sat? (apply-env env id))
+          (cases sat (apply-env env id)
+            (instancia-sat (n clausulas-or)
+                           (begin
+                             (define combinaciones (generar-todas-las-combinaciones n))
+                             (define resultado (implementacion-evaluar-combinacion-correcta combinaciones clausulas-or 0))
+                             (if (string? resultado) (list resultado) (map (lambda (id) (if (equal? id 1) true-value false-value)) resultado) )
+                           )            
+            )
+          )
+          (eopl:error 'implementacion-exp-resolver-sat "No es una instancia de tipo SAT ~s")
+      )
+  )
+)
+; Implementación para evaluar la combinación que es correcta.
+
+(define implementacion-evaluar-combinacion-correcta
+  (lambda (combinaciones clausulas-or pos)
+    (if (equal? pos (vector-length combinaciones))
+        "Insatisfactible"
+        (if (evaluar-combinacion (list->vector (vector-ref combinaciones pos)) clausulas-or )
+            (vector-ref combinaciones pos)
+            (implementacion-evaluar-combinacion-correcta combinaciones clausulas-or (+ pos 1))
+        )
+    )
+  )
+)
+; Implementación evaluar-combinación que retorna true sí todas las clausulas-or en la lista son verdad al ser evaluadas.
+
+(define evaluar-combinacion
+  (lambda (combinacion clausulas-or)
+    (if (null? clausulas-or)
+        #t
+        (and (evaluar-clausula combinacion (car clausulas-or)) (evaluar-combinacion combinacion (cdr clausulas-or)))
+    )
+  )
+)
+; Implementación evaluar-clausula que retorna true si al menos un valor dentro de la clausula or es verdad.
+
+(define evaluar-clausula
+  (lambda  (combinacion clausula)
+    (if (null? clausula)
+        #f
+        (or (traducir-valor-de-verdad combinacion (car clausula)) (evaluar-clausula combinacion (cdr clausula)))
+    )
+  )
+)
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 
 

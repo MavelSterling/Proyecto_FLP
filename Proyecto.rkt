@@ -1120,6 +1120,28 @@
     )
   )
 )
+
+; Implementación traducir valor verdad que recibe un vector con numeros enteros distintos a 0 y retorna el valor de verdad.
+
+(define traducir-valor-de-verdad
+  (lambda (vec pos)
+    (if (< pos 0)
+        (not (obtener-valor-de-verdad vec (- (* pos -1) 1 )))
+        (obtener-valor-de-verdad vec (- pos 1))
+    )
+  )
+)
+; Implementación obtener valor de verdad que retorna T sí el valor a que hace referencia en el vector es 1, de lo contrario es 0.
+
+(define obtener-valor-de-verdad
+  (lambda (vec pos)
+    (begin
+      (define val (vector-ref vec pos))
+      (if (equal? val 1) #t #f)
+    )
+  )
+)
+
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 
 

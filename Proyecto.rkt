@@ -1163,6 +1163,41 @@
   )
 )
 
+; Implementación que genera todas las combinaciones posbiles  donde retorna un vector formado por listas, formado por combinaciones de valores booleans.
+
+(define generar-todas-las-combinaciones
+  (lambda (first-int)
+    (begin
+      (define combinaciones (generar-arbol-con-combinaciones first-int) )
+      (define vector-combinaciones (make-vector (expt 2 first-int)) )
+      (define posicion-vector 0 )
+      (define vector-push
+        (lambda (val)
+          (begin
+            (vector-set! vector-combinaciones posicion-vector val)
+            (set! posicion-vector (+ posicion-vector 1))
+            )
+          )
+       )
+      (define buscar-combinaciones
+        (lambda (arbol-binario list)
+          (cases arbol-sat arbol-binario
+            (nodo (val izq der)
+                  (if (equal? val -1)
+                      (begin (buscar-combinaciones izq list) (buscar-combinaciones der list))
+                      (if (equal? izq (arbol-vacio)) (vector-push (cons val list)) (begin (buscar-combinaciones izq (cons val list)) (buscar-combinaciones der (cons val list))))  )
+                      
+                  )
+            (default #f )
+            ) 
+        )
+       )
+      (buscar-combinaciones combinaciones '())
+       vector-combinaciones
+    )
+  )
+)
+
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 
 

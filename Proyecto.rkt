@@ -94,10 +94,10 @@
   (comentario ("/*" (arbno (not #\newline))) skip)
   (identificador(letter (arbno (or letter digit))) symbol)
   (null ("null") string)
-  (nombre ("@" letter (arbno letter)) string)
   (numero (digit (arbno digit)) number) 
   (numero ("-" digit (arbno digit)) number)
-  (numero (digit (arbno digit) "." digit (arbno digit)) number)
+  (float (digit (arbno digit)"."digit (arbno digit)) number)
+  (float ("-" digit (arbno digit)"."digit (arbno digit)) number)
   (caracter ("'"letter"'") symbol)
   (cadena ("$"(or letter whitespace digit) (arbno (or whitespace letter digit))) string)
   )
@@ -115,13 +115,13 @@
     ;Definiciones:
 
     ;var: basado en Java, comienzan con var identificador = expresion
-    (expresion ("var" identificador "=" expresion)  var-exp)
+    (expresion ("var" (separated-list identificador "=" expresion ",") "in" expresion) var-exp)
 
     ;const: basado en Java,comienzan con cons identificador = expresion
     (expresion ("const" identificador "=" expresion) const-exp)
 
     ;rec: basado en Java, comienzan con letrec identificador = expresion
-    (expresion ("rec" (arbno nombre "(" (separated-list nombre ",") ")" "=" expresion)  "in" expresion) rec-exp)
+    (expresion ("const" (separated-list identificador "=" expresion ",") "in" expresion) const-exp)
     
     ;Datos
 
@@ -152,7 +152,7 @@
     (expresion ("[" primitiva (separated-list expresion ",") "]") primitiva-num)
 
     ;lista: basado en Java
-    (expresion ("lista" "(" expresion (arbno "," expresion) ")") lista-exp)
+    (expresion ("lista" "(" expresion (arbno "," expresion) ")") list-exp)
     
     ;vector: basado en Java
     (expresion ("vector" "{"(separated-list expresion ",") "}") vector-exp)
@@ -269,14 +269,6 @@
     (primitiva ("set-registro") reg-set)
     (primitiva ("crear-registro") reg-crear)
     
-    ;& referencia basada en Java 
-    (expresion ("&" nombre) refe-exp)
-    
-    ;null: basado en Java
-    (expresion ("null") null-exp)
-    )
-    
-  
   )
     
 ;||||||||||||||||||||||||Construcciones Automáticas||||||||||||||||||||||||

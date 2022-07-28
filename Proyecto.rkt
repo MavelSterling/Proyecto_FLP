@@ -961,6 +961,30 @@
   )
 )
 
+;; Implementación de var.
+
+(define implementacion-exp-var
+  (lambda (vars vals body env)
+    (eval-expression body (extend-env (map (lambda (var) (mutable var)) vars )  (implementacion-exp-listas vals env) env) )
+  )
+)
+; Implementación de cons.
+
+(define implementacion-exp-cons
+  (lambda (vars vals body env)
+    (eval-expression body (extend-env (map (lambda (var) (inmutable var))vars)  (implementacion-exp-listas vals env) env))
+  )
+)
+
+; Implementación de begin.
+
+(define implementacion-exp-begin
+  (lambda (primera-exp lista-de-expresiones env)
+     (if (null? lista-de-expresiones) (eval-expression primera-exp env)
+         (begin (eval-expression primera-exp env) (implementacion-exp-begin (car lista-de-expresiones) (cdr lista-de-expresiones) env)))
+  )
+)
+
 
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 

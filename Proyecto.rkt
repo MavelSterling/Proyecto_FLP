@@ -889,6 +889,29 @@
   )
 )
 
+; Implementación para set.
+
+(define implementacion-exp-set
+  (lambda (id expr env)
+     (begin
+       (if  (var-es-mutable? id env)
+            (cases reference (apply-env-ref env id)
+              (a-ref (pos vals mut)  
+                  (if (target? (vector-ref vals pos))
+                    (cases target (vector-ref vals pos) 
+                      (indirect-target (ref)  (setref! ref (eval-expression expr env)))
+                    )
+                  (setref! (apply-env-ref env id) (eval-expression expr env))
+                )
+              )
+            )      
+            (eopl:error 'set-exp "No se puede modificar la constante ~s" id)
+       )
+       1
+     )
+  )
+)
+
 
 ;||||||||||||||||||||||||Scan&Parser||||||||||||||||||||||||
 

@@ -321,100 +321,221 @@
   )
 )
 
-;#########################Definición del Interprete###############################
+; Definición Eval-Expression
 
 (define eval-expression
   (lambda (exp env)
     (cases expresion exp
-    
       ;Datos
       (ide-exp (id) (apply-env env id))
-      (num-exp (numb) (eval-exp-numeros numb))
-      (var-exp (vars vals body) (eval-expresiones-var vars vals body env))                                                     
-      (const-exp (vars vals body) (eval-expresiones-cons vars vals body env))
-      (cadena-exp (str) (eval-expresiones-cadenas str))
-      (caracter-exp (char) (eval-expresiones-caracteres char))
-      (primitive-exp (prim list-expres) (eval-expresiones-primitivas prim list-expres env))  
+      (null-exp (null) 'null)
+      (num-exp (numb) (implementacion-exp-numeros numb))
+      (var-exp (vars vals body) (implementacion-exp-var vars vals body env))                                                     
+      (const-exp (vars vals body) (implementacion-exp-cons vars vals body env))
+      (cadena-exp (str) (implementacion-exp-cadenas      str))
+      (caracter-exp (char) (implementacion-exp-caracteres char))
+      (primitive-exp (prim list-expres) (implementacion-exp-primitivas prim list-expres env))  
       (refe-exp (ref)
       (cases reference (apply-env-ref env ref)
         (a-ref (pos vals mut) 
                (if (target? (vector-ref vals pos) )
                    (vector-ref vals pos)
                    (indirect-target (apply-env-ref env ref))))))
-                   
-                   ;Constructores de Datos Predefinidos
-      (list-exp (expr-list) (eval-expresiones-listas expr-list env))                                                 
-      (vector-exp (expr-vec) (eval-expresiones-vectores expr-vec env))                                             
-      (registro-exp (ids exps) (eval-expresiones-registros ids exps env))
-      (expr-bool-exp (expres-bol) (eval-expresiones-booleanas expres-bol env))
+
+      ;Constructores de Datos Predefinidos
+      (list-exp (expr-list) (implementacion-exp-listas expr-list env))                                                 
+      (vector-exp (expr-vec) (implementacion-exp-vectores expr-vec env))                                             
+      (registro-exp (ids exps) (implementacion-exp-registros ids exps env))
+      (expr-bool-exp (expres-bol) (implementacion-exp-booleanas expres-bol env))
 
       ;Estructuras de Control
-      (begin-exp (expr exp-lists) (eval-expresiones-begin expr exp-lists env))
-      (if-exp (bool-exp true-expr false-expr) (eval-expresiones-if bool-exp true-expr false-expr env))  
-      (while-exp (bool-exp body) (eval-expresiones-while bool-exp body env))                                                   
-      (for-exp (id init-value goto final-value body) (eval-expresiones-for id init-value goto final-value body env))
+      (begin-exp (expr exp-lists) (implementacion-exp-begin expr exp-lists env))
+      (if-exp (bool-exp true-expr false-expr) (implementacion-exp-if bool-exp true-expr false-expr env))  
+      (while-exp (bool-exp body) (implementacion-exp-while bool-exp body env))                                                   
+      (for-exp (id init-value goto final-value body) (implementacion-exp-for id init-value goto final-value body env))                 
       
       ;Procedimientos
-      (procedure-exp (ids body) (eval-expresiones-procedure ids body env))
-      (procedure-call-exp (expr args) (eval-expresiones-call-procedure expr args env))
-      (recursive-exp (proc-names idss bodies letrec-body) (eval-expresiones-recursive proc-names idss bodies letrec-body env))
+      (procedure-exp (ids body) (implementacion-exp-procedure         ids body env))
+      (procedure-call-exp (expr args) (implementacion-exp-call-procedure        expr args env))
+      (recursive-exp (proc-names idss bodies letrec-body) (implementacion-exp-recursivo proc-names idss bodies letrec-body env))
 
       ;Asignación de Variables
-      (set-exp (id expr) (eval-expresiones-set id expr env))  
+      (set-exp (id expr) (implementacion-exp-set id expr env))
+      
 
       ;Hexadecimales [Base 8,16,32]
-      (bas8-exp (hex) (eval-expresiones-hexadecimales hex env))
-      ;(bas16-exp (hex) (eval-expresiones-hexa16 hex env))
-      ;(bas32-exp (hex) (eval-expresiones-hexa32 hex env))
-      
+      (hexadecimal-exp (hex) (eval-expresiones-hexadecimales hex env))
+
       ;Impresión de Variables                  
       (imp-exp (ex) (display  (eval-expression ex env)))
-      
+
       ;Instancias SAT                                              
-      (instancia-sat-exp (first-int clauses)(eval-expresiones-sat first-int clauses ) )                                       
-      (solve-instancia-sat-exp (id) (eval-expresiones-solve-sat id env))
-      
-      )
-   )
-)
-
-;#######################Definición de Ambientes#######################
-
-;Definición del tipo de ambiente
-(define-datatype environment environment?
-  (empty-env-record)
-  (extended-env-record (vars (list-of variable?))
-                       (vec vector?)
-                       (env environment?)))
-
-(define scheme-value? (lambda (v) #t))
-
-   ;Definición Ambiente Vacio
-(define empty-env  
-  (lambda ()
-    (empty-env-record)))       
-
-;Extensión del ambiente
-(define extend-env
-  (lambda (vars vals env)
-    (extended-env-record vars (list->vector vals) env)))
-
-;Procedimiento que busca un simbolo en un Ambiente
-(define apply-env
-  (lambda (env sym)
-    (de-ref (apply-env-ref env sym))
+      (instancia-sat-exp (first-int clauses)(implementacion-exp-sat first-int clauses ) )                                       
+      (solve-instancia-sat-exp (id) (implementacion-exp-resolver-sat id env))                                                        
+    )
   )
 )
-(define apply-env-ref
-  (lambda (env sym)
-    (cases environment env
+
+;||||||||||||||||||||||||[Paso por valor y paso por referencia]||||||||||||||||||||||||
+
+; Registra una referencia donde pos es la posicion de la referencia en el vector.
+
+(define-datatype reference reference?
+  (a-ref (position integer?)
+         (vec vector?)
+         (mutable symbol?)
+        )
+  )
+
+; Retorna el valor de la referencia del vector.
+
+(define de-ref
+  (lambda (ref)
+    (cases reference ref
+      (a-ref (pos vals mut) 
+        (if (target? (vector-ref vals pos))
+           (cases target (vector-ref vals pos)
+              (indirect-target (refi) (primitive-deref refi))
+           )
+          (primitive-deref ref)
+        )
+      )
+    )       
+  )
+)
+
+(define primitive-deref
+  (lambda (ref)
+    (cases reference ref
+      (a-ref (pos vec mut)
+             (vector-ref vec pos)
+      )
+    )
+  )
+)
+
+
+;Cambia el valor de la referencia por el valor dado
+
+(define setref!
+  (lambda (ref val)
+    (if (target? ref)
+        (cases target ref
+          (indirect-target (refi) (primitive-setref! refi val))
+        )
+        (primitive-setref! ref val)
+    )
+  )
+)
+
+(define primitive-setref!
+     (lambda (ref val)
+       (cases reference ref
+         (a-ref (pos vec mut) (vector-set! vec pos val))
+       )
+     )
+    )
+
+; Definición de Targets
+
+(define-datatype target target?
+  (indirect-target (ref  ref-to-direct-target? ))
+
+)
+
+(define aplicar-indirect-target
+  (lambda (val)
+    (cases target val (indirect-target (ref)  (primitive-deref ref)))
+  )
+)
+
+(define ref-to-direct-target?
+  (lambda (x)
+    (and (reference? x)
+         (cases reference x
+           (a-ref (pos vec mut)
+                  (if  (not (reference?  (vector-ref vec pos) ) )  #t #f )
+                  )
+           )
+         )
+    )
+  )
+; Definición de una variable cuando muta y cuando no.
+
+(define-datatype variable variable?
+  (mutable (id symbol?))
+  (inmutable (id symbol?))
+)
+; Definición de una función para encontrar el simbolo en una lista de variables.
+
+(define encontrar-sim-var
+  (lambda (sym vars)
+    (busqueda-symb-in-vars sym vars 0)
+  )
+)
+; Definición de función auxiliar de busqueda simbolo en una lista de variables.
+
+(define busqueda-symb-in-vars
+  (lambda (sym vars pos)
+    (cond
+      ( (null? vars) #f)
+      ( (equal? sym (retornar-simbolo (car vars))) pos )
+      ( else (busqueda-symb-in-vars sym (cdr vars) (+ pos 1)) )
+    )
+  )
+)
+; Definición de función para encontrar en el ambiente la variable que tenga el mismo simbolo y retornarla.
+
+(define var-es-mutable?
+  (lambda (sym env)
+      (cases environment env
       (empty-env-record ()
-                        (eopl:error 'apply-env-ref "Simbolo desconocido" sym))
+                        (eopl:error 'apply-env-ref "No se encontró ~s" sym))
       (extended-env-record (vars vals env)
-                           (let ((pos (encontrar-simbolo-en-vars sym vars)) (mut (encontrar-valor-mutable sym vars)) )
-                             (if (and (number? pos) (symbol? mut) )
-                                 (a-ref pos vals mut)
-                                 (apply-env-ref env sym)))))))
+                           (let ((pos (encontrar-sim-var sym vars)))
+                             (if (number? pos)
+                                 (cases variable (list-ref vars pos)
+                                   (mutable (id) #t)
+                                   (inmutable (id) #f)
+                                 )
+                                 (var-es-mutable? sym env)
+                             )
+        )
+      )
+  )
+ )
+)
+; Definición que retorna cuando una variable es mutable o no.
+
+(define encontrar-valor-mutable
+ (lambda (sym vars)
+   (busqueda-mut-in-vars sym vars 0)
+ )
+)
+
+; Definición de función auxiliar que actúa como búsqueda en la lista de variables.
+
+(define busqueda-mut-in-vars
+  (lambda (sym vars pos)
+    (cond
+      ( (null? vars) #f)
+      ( (equal? sym (retornar-simbolo (car vars))) (cases variable (car vars) (mutable (id) 'M) (inmutable (id) 'I) )  )
+      ( else (busqueda-mut-in-vars sym (cdr vars) (+ pos 1)) )
+    )
+  )
+)
+
+; Definición que retorna el símbolo de la variable.
+
+(define retornar-simbolo
+  (lambda (var)
+    (cases variable var
+      (mutable (id) id)
+      (inmutable (id) id)
+    )
+  )
+)
+
     
 
 ;##############################Scan&Parser##############################

@@ -536,7 +536,92 @@
   )
 )
 
-    
+  ;||||||||||||||||||||||||[Definición de Ambientes]||||||||||||||||||||||||
+
+;Definición del tipo de ambiente.
+
+(define-datatype environment environment?
+  (empty-env-record)
+  (extended-env-record (vars (list-of variable?))
+                       (vec vector?)
+                       (env environment?)))
+
+(define scheme-value? (lambda (v) #t))
+
+;Definición ambiente vacío.
+
+(define empty-env  
+  (lambda ()
+    (empty-env-record)))       
+
+;Extensión del ambiente.
+
+(define extend-env
+  (lambda (vars vals env)
+    (extended-env-record vars (list->vector vals) env)))
+
+;Procedimiento que busca un simbolo en un ambiente.
+
+(define apply-env
+  (lambda (env sym)
+    (de-ref (apply-env-ref env sym))
+  )
+)
+
+(define apply-env-ref
+  (lambda (env sym)
+    (cases environment env
+      (empty-env-record ()
+                        (eopl:error 'apply-env-ref "Simbolo desconocido ~s" sym))
+      (extended-env-record (vars vals env)
+                           (let ((pos (encontrar-sim-var sym vars)) (mut (encontrar-valor-mutable sym vars)) )
+                             (if (and (number? pos) (symbol? mut) )
+                                 (a-ref pos vals mut)
+                                 (apply-env-ref env sym)
+                                 )
+                             )
+                           )
+      )
+    )
+  )
+     
+
+; Definición que retorna una lista de los números desde 0 hasta end
+
+(define iota
+  (lambda (end)
+    (let loop ((next 0))
+      (if (>= next end) '()
+        (cons next (loop (+ 1 next)))))))
+
+; Definición de tipos de datos nativos.
+
+; Definición de true-valor como un valor de verdad.
+
+(define true-value 'true)
+
+; Definición de false-valor como un valor de falsedad.
+
+(define false-value 'false)
+
+;Definición que pregunta cuando algo es verdadero.
+
+(define isTrue?
+  (lambda (x)
+    (equal? x true-value)
+  )
+)
+; Definición de datatype para datos de tipo instancia SAT.
+
+(define-datatype sat sat?
+  (instancia-sat (n integer?) (lista list?))
+)
+; Definición de datatype que define el tipo de dato árbol binario SAT.
+
+(define-datatype arbol-sat arbol-sat?
+  (nodo (value number?) (arbol-izquierda arbol-sat?) (arbol-derecha arbol-sat?))
+  (arbol-vacio)
+)
 
 ;##############################Scan&Parser##############################
 
